@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { formatTime } from '../functions'; // Asegúrate de que la ruta sea correcta
 import Tabs from './tabContent';
-import HoursDistribution from "./HoursDistribution";
+import HoursDistribution from './HoursDistribution';
 
 // @ts-ignore
 const KpiReport: React.FC<{ files: UploadedFile[] }> = ({ files }) => {
@@ -187,6 +187,7 @@ const KpiReport: React.FC<{ files: UploadedFile[] }> = ({ files }) => {
 
 
       <Tabs files={files} fromDate={dateFrom} toDate={dateTo} />
+
 
       <HoursDistribution files={files} fromDate={dateFrom} toDate={dateTo} />
 
