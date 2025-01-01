@@ -36,7 +36,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({ setFiles }) => {
 
   return (
     <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
-      <h1>Sube tus datos de Spotify</h1>
+      <h1>Subí tus datos json de Spotify</h1>
 
       <div
         {...getRootProps()}
@@ -49,7 +49,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({ setFiles }) => {
         }}
       >
         <input {...getInputProps()} />
-        <p>Arrastra y suelta archivos JSON aquí, o haz clic para seleccionarlos</p>
+        <p>Arrastrá y soltá los archivos JSON aquí, o haz clic para seleccionarlos</p>
         {files.length > 0 && (
           <div style={{ marginTop: "20px" }}>
             <h4>Archivos cargados:</h4>
