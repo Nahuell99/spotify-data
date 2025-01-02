@@ -97,99 +97,122 @@ const KpiReport: React.FC<{ files: UploadedFile[] }> = ({ files }) => {
         &#8592; {/* Flecha hacia la izquierda */}
       </Link>
 
-      <h1>Informe de KPIs</h1>
+      <div
+        style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "20px",
+            backgroundColor: "#1f1f1f",
+            borderRadius: "18px",
+            width: "80%", // Ajusta este ancho según tu preferencia
+            margin: "0 auto",
+        }}
+      >
 
-      {/* Caja contenedora para inputs y botones */}
-      <div style={{
-        padding: '20px',
-        border: '2px solid #e7ebda',
-        borderRadius: '8px',
-        display: 'inline-block',
-        textAlign: 'center',
-        marginBottom: '20px'
-      }}>
-        {/* Caja de inputs */}
-        <div style={{ marginBottom: '20px' }}>
-          <input
-            type="date"
-            value={dateFrom}
-            onChange={(e) => setDateFrom(e.target.value)}
-            style={{ marginRight: '10px', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }}
-          />
-          <input
-            type="date"
-            value={dateTo}
-            onChange={(e) => setDateTo(e.target.value)}
-            style={{ padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }}
-          />
-        </div>
+        <h1>Tus estadísticas de uso de Spotify</h1>
 
-        {/* Botones de atajo */}
-        <div>
-          {availableYears.map((year) => (
+        {/* Caja contenedora para inputs y botones */}
+        <div style={{
+          padding: '20px',
+          border: '2px solid #e7ebda',
+          borderRadius: '8px',
+          textAlign: 'center',
+          marginBottom: '20px',
+          display: 'block',
+          width: '95%', // Ajusta este porcentaje según el margen que quieras
+          margin: '0 auto', // Centra horizontalmente el contenedor
+          boxSizing: 'border-box', // Asegura que el padding no afecte el ancho total
+        }}>
+          
+          {/* Caja de inputs */}
+          <div style={{ marginBottom: '20px' }}>
+            <input
+              type="date"
+              value={dateFrom}
+              onChange={(e) => setDateFrom(e.target.value)}
+              style={{ marginRight: '10px', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }}
+            />
+            <input
+              type="date"
+              value={dateTo}
+              onChange={(e) => setDateTo(e.target.value)}
+              style={{ padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }}
+            />
+          </div>
+
+          {/* Botones de atajo */}
+          <div>
+            {availableYears.map((year) => (
+              <button
+                key={year}
+                onClick={() => handleYearButtonClick(year)}
+                style={{
+                  margin: '5px',
+                  padding: '10px',
+                  backgroundColor: '#007bff',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                }}
+              >
+                {year}
+              </button>
+            ))}
             <button
-              key={year}
-              onClick={() => handleYearButtonClick(year)}
+              onClick={handleTotalButtonClick}
               style={{
                 margin: '5px',
                 padding: '10px',
-                backgroundColor: '#007bff',
+                backgroundColor: '#28a745',
                 color: 'white',
                 border: 'none',
                 borderRadius: '5px',
                 cursor: 'pointer',
               }}
             >
-              {year}
+              TOTAL
             </button>
-          ))}
-          <button
-            onClick={handleTotalButtonClick}
-            style={{
-              margin: '5px',
-              padding: '10px',
-              backgroundColor: '#28a745',
-              color: 'white',
-              border: 'none',
-              borderRadius: '5px',
-              cursor: 'pointer',
-            }}
-          >
-            TOTAL
-          </button>
+          </div>
         </div>
+
+        {/* Caja contenedora de los KPIs */}
+        <div style={{
+          justifyContent: 'space-around',
+          marginTop: '20px',
+          marginBottom: '20px',
+          display: 'flex',
+          width: '95%', // Ajusta este porcentaje según el margen que quieras
+          margin: '0 auto', // Centra horizontalmente el contenedor
+          boxSizing: 'border-box', // Asegura que el padding no afecte el ancho total
+        }}>
+          <div style={{ border: '2px solid #e7ebda', padding: '15px', borderRadius: '8px', width: '200px' }}>
+            <h3>Total de tiempo escuchado</h3>
+            <p>{formatTime(totalTime)}</p>
+          </div>
+          <div style={{ border: '2px solid #e7ebda', padding: '15px', borderRadius: '8px', width: '200px' }}>
+            <h3>Total de canciones distintas</h3>
+            <p>{uniqueTracks}</p>
+          </div>
+          <div style={{ border: '2px solid #e7ebda', padding: '15px', borderRadius: '8px', width: '200px' }}>
+            <h3>Total de artistas distintos</h3>
+            <p>{uniqueArtists}</p>
+          </div>
+          <div style={{ border: '2px solid #e7ebda', padding: '15px', borderRadius: '8px', width: '200px' }}>
+            <h3>Total de álbumes distintos</h3>
+            <p>{uniqueAlbums}</p>
+          </div>
+        </div>
+
+
+        <Tabs files={files} fromDate={dateFrom} toDate={dateTo} />
+
+
+        <HoursDistribution files={files} fromDate={dateFrom} toDate={dateTo} />
+
       </div>
-
-      {/* Caja contenedora de los KPIs */}
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-around',
-        marginTop: '20px',
-        marginBottom: '20px'
-      }}>
-        <div style={{ border: '2px solid #e7ebda', padding: '15px', borderRadius: '8px', width: '200px' }}>
-          <h3>Total de tiempo escuchado</h3>
-          <p>{formatTime(totalTime)}</p>
-        </div>
-        <div style={{ border: '2px solid #e7ebda', padding: '15px', borderRadius: '8px', width: '200px' }}>
-          <h3>Total de canciones distintas</h3>
-          <p>{uniqueTracks}</p>
-        </div>
-        <div style={{ border: '2px solid #e7ebda', padding: '15px', borderRadius: '8px', width: '200px' }}>
-          <h3>Total de artistas distintos</h3>
-          <p>{uniqueArtists}</p>
-        </div>
-        <div style={{ border: '2px solid #e7ebda', padding: '15px', borderRadius: '8px', width: '200px' }}>
-          <h3>Total de álbumes distintos</h3>
-          <p>{uniqueAlbums}</p>
-        </div>
-      </div>
-
-
-      <Tabs files={files} fromDate={dateFrom} toDate={dateTo} />
-
-
-      <HoursDistribution files={files} fromDate={dateFrom} toDate={dateTo} />
 
     </div>
   );

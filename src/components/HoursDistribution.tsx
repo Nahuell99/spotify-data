@@ -8,6 +8,7 @@ import {
     Tooltip,
     Legend,
     Label,
+    ResponsiveContainer
 } from "recharts";
 
 interface HoursDistributionProps {
@@ -58,46 +59,45 @@ const HoursDistribution: React.FC<HoursDistributionProps> = ({
     return (
         <div
             style={{
-                padding: "20px",
                 backgroundColor: "#1f1f1f",
-                borderRadius: "5px",
-                width: "100%",
+                borderRadius: "8px",
+                width: "95%",
                 boxSizing: "border-box",
+                margin: "0 auto",
+                display: "block",
             }}
         >
             <h3 style={{ color: "#FFF", textAlign: "center" }}>Distribución por Horas</h3>
-            <div style={{ width: "100%" }}>
-                <BarChart
-                    width={Math.max(chartData.length * 50, 800)} // Ajuste dinámico al número de columnas
-                    height={400}
-                    data={chartData}
-                    margin={{ top: 20, right: 30, left: 40, bottom: 30 }}
-                >
-                    <CartesianGrid strokeDasharray="3 3" stroke="#A1A1AA" />
-                    <XAxis dataKey="hour" stroke="#FFF">
-                        <Label
-                            value="Horario del día"
-                            offset={-10}
-                            position="insideBottom"
-                            style={{ fill: "#FFF" }}
-                        />
-                    </XAxis>
-                    <YAxis
-                        stroke="#FFF"
-                        domain={[0, adjustedMax]} // Ajuste dinámico con margen calculado
-                        tickFormatter={(value) => value.toFixed(0)} // Mostrar valores enteros en el eje Y
+            <div style={{ width: "100%", height: "400px" }}>
+                <ResponsiveContainer>
+                    <BarChart
+                        data={chartData}
+                        margin={{ top: 20, bottom: 30 }}
                     >
-                        <Label
-                            value="Horas acumuladas"
-                            angle={-90}
-                            position="insideLeft"
-                            style={{ fill: "#FFF" }}
+                        <CartesianGrid strokeDasharray="3 3" stroke="#A1A1AA" />
+                        <XAxis dataKey="hour" stroke="#FFF">
+                            <Label
+                                value="Horario del día"
+                                offset={-10}
+                                position="insideBottom"
+                                style={{ fill: "#FFF" }}
+                            />
+                        </XAxis>
+                        <YAxis
+                            stroke="#FFF"
+                            domain={[0, adjustedMax]}
+                            tickFormatter={(value) => value.toFixed(0)}
+                        >
+                        </YAxis>
+                        <Tooltip contentStyle={{ backgroundColor: "#333", color: "#FFF" }} />
+                        <Legend wrapperStyle={{ color: "#FFF" }}
+                            layout="horizontal"
+                            align="center"
+                            verticalAlign="top" // Ubica la leyenda encima del gráfico
                         />
-                    </YAxis>
-                    <Tooltip contentStyle={{ backgroundColor: "#333", color: "#FFF" }} />
-                    <Legend wrapperStyle={{ color: "#FFF" }} />
-                    <Bar dataKey="totalHours" fill="#82ca9d" />
-                </BarChart>
+                        <Bar dataKey="totalHours" fill="#82ca9d" name="Consumo acumulado en horas" />
+                    </BarChart>
+                </ResponsiveContainer>
             </div>
         </div>
     );

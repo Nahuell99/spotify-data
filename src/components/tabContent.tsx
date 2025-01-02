@@ -99,8 +99,8 @@ const Tabs: React.FC<{ files: any[], fromDate: string, toDate: string }> = ({ fi
         style={{
           display: "flex",
           backgroundColor: "#A1A1AA",
-          border: "1px solid #A1A1AA",
-          borderRadius: "5px",
+          border: "4px solid #A1A1AA",
+          borderRadius: "16px",
         }}
       >
         {tabs.map((tab) => (
@@ -113,6 +113,7 @@ const Tabs: React.FC<{ files: any[], fromDate: string, toDate: string }> = ({ fi
               padding: "10px",
               cursor: "pointer",
               backgroundColor: activeTab === tab.id ? "#000" : "#A1A1AA",
+              borderRadius: "16px",
               color: activeTab === tab.id ? "#FFF" : "#000",
               borderRight: tab.id !== tabs[tabs.length - 1].id ? "1px solid #A1A1AA" : "none",
             }}
