@@ -1,0 +1,97 @@
+.conteiner{
+    padding: 20px;
+    font-family: "Arial";
+    text-align: center;
+    max-width: 1500px;
+}
+
+.flecha-flotante{
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 50%;
+    padding: '10px';
+    font-size: '20px';
+    text-decoration: 'none';
+    display: 'flex';
+    align-items: 'center';
+    justify-content: 'center';
+    box-shadow: '0 4px 8px rgba(0, 0, 0, 0.2)';
+    cursor: 'pointer';
+    z-index: 1000
+}
+
+.contenedor-inputs{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #1f1f1f;
+    border-radius: 18px;
+    width: 80%;
+}
+
+.contenedor-fechas-anos{
+    padding: 20px;
+    border: 2px solid #e7ebda;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 20px;
+    display: block;
+    width: 95%;
+    margin: 0 auto;
+    box-sizing: border-box
+}
+
+.date-from{
+    margin-right: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc
+}
+
+.date-to{
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc
+}
+
+.atajo-ano{
+    margin: 5px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer
+}
+
+.atajo-total{
+    margin: 5px;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer
+}
+
+.kpi-conteiner{
+    justify-content: space-around;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    width: 95%;
+    margin: 0 auto;
+    box-sizing: border-box
+}
+
+.kpi-box{
+    border: 2px solid #e7ebda;
+    padding: 15px;
+    border-radius: 8px;
+    width: 200px
+}

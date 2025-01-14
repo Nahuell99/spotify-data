@@ -1,8 +1,8 @@
 import './App.css'
 import { useState } from "react";
 import { Route, Routes, useLocation } from 'react-router-dom';
-import KpiReport from './components/KpiReport';
-import FileUploader from "./components/FileUploader";
+import KpiReport from './components/KpiReport/KpiReport';
+import FileUploader from "./components/FileUploader/FileUploader";
 
 
 
