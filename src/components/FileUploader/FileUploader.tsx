@@ -128,6 +128,124 @@ const FileUploader: React.FC<FileUploaderProps> = ({ setFiles }) => {
         </Link>
       </div>
 
+      <div className="privacy-notice">
+        <p className="privacy-text">
+          <strong>🔒 Privacidad:</strong> Este sitio es un front-end estático. Tus datos <strong>NO se almacenan</strong> en ningún servidor. 
+          Todo el procesamiento se realiza en tu navegador. Puedes verificar el código fuente en{" "}
+          <a href="https://github.com/Nahuell99/spotify-data" target="_blank" rel="noopener noreferrer" className="github-link">
+            GitHub
+          </a>.
+        </p>
+      </div>
+
+      {/* Sección de tutorial */}
+      <section className="tutorial-section">
+        <h2 className="tutorial-title">¿Cómo obtener tus datos de Spotify?</h2>
+        <p className="tutorial-intro">
+          Para usar esta herramienta, necesitas los archivos JSON con tu historial de reproducción. 
+          Busca archivos que se llamen: <code>Streaming_History_Audio_{`{`}Start-year{`}`}-{`{`}End-year{`}`}_{`{`}Counter{`}`}.json</code>
+        </p>
+
+        <div className="tutorial-steps">
+          <div className="tutorial-step">
+            <div className="step-number">1</div>
+            <div className="step-content">
+              <h3>Ir al sitio de privacidad de Spotify</h3>
+              <p>
+                Visita <a href="https://www.spotify.com/account/privacy/" target="_blank" rel="noopener noreferrer" className="external-link">
+                  https://www.spotify.com/account/privacy/
+                </a>
+              </p>
+            </div>
+          </div>
+
+          <div className="tutorial-step">
+            <div className="step-number">2</div>
+            <div className="step-content">
+              <h3>Iniciar sesión en tu cuenta de Spotify</h3>
+              <p>Asegúrate de estar logueado con tu cuenta de Spotify</p>
+              <img 
+                src={`${import.meta.env.BASE_URL}instructions/Paso 0.png`} 
+                alt="Iniciar sesión en Spotify" 
+                className="step-image"
+              />
+            </div>
+          </div>
+
+          <div className="tutorial-step">
+            <div className="step-number">3</div>
+            <div className="step-content">
+              <h3>Seleccionar "Extended playback history"</h3>
+              <p>En la sección de privacidad, busca la opción "Extended playback history" y selecciónala (mínimo)</p>
+            </div>
+          </div>
+
+          <div className="tutorial-step">
+            <div className="step-number">4</div>
+            <div className="step-content">
+              <h3>Presionar el botón "Request the data"</h3>
+              <p>Haz clic en el botón para solicitar tus datos</p>
+              <img 
+                src={`${import.meta.env.BASE_URL}instructions/Paso 1.png`} 
+                alt="Solicitar datos de Spotify" 
+                className="step-image"
+              />
+            </div>
+          </div>
+
+          <div className="tutorial-step">
+            <div className="step-number">5</div>
+            <div className="step-content">
+              <h3>Esperar el email de confirmación</h3>
+              <p>Spotify te enviará un email con el asunto "You can now download your extended playback history"</p>
+            </div>
+          </div>
+
+          <div className="tutorial-step">
+            <div className="step-number">6</div>
+            <div className="step-content">
+              <h3>Descargar desde el sitio oficial</h3>
+              <p>Cuando recibas el email, descarga tus datos desde el sitio oficial de Spotify que te proporciona el enlace</p>
+              <img 
+                src={`${import.meta.env.BASE_URL}instructions/Paso 2.png`} 
+                alt="Descargar datos de Spotify" 
+                className="step-image"
+              />
+            </div>
+          </div>
+
+          <div className="tutorial-step">
+            <div className="step-number">7</div>
+            <div className="step-content">
+              <h3>Buscar el archivo ZIP descargado</h3>
+              <p>Localiza el archivo ZIP que descargaste en tu computadora</p>
+              <img 
+                src={`${import.meta.env.BASE_URL}instructions/Paso 3.1.png`} 
+                alt="Archivo ZIP descargado" 
+                className="step-image"
+              />
+            </div>
+          </div>
+
+          <div className="tutorial-step">
+            <div className="step-number">8</div>
+            <div className="step-content">
+              <h3>Descomprimir y buscar los archivos JSON</h3>
+              <p>
+                Descomprime el archivo ZIP y busca los archivos JSON que se llamen:{" "}
+                <code>Streaming_History_Audio_{`{`}Start-year{`}`}-{`{`}End-year{`}`}_{`{`}Counter{`}`}.json</code>
+              </p>
+              <p className="step-note">Esos son los archivos que debes subir a esta herramienta</p>
+              <img 
+                src={`${import.meta.env.BASE_URL}instructions/Paso 3.2.png`} 
+                alt="Archivos JSON de Spotify" 
+                className="step-image"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 };

@@ -1,7 +1,7 @@
 .file-uploader{
     padding: 20px;
     font-family: 'Arial';
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
     text-align: center;
 }
@@ -148,4 +148,163 @@
     background-color: #555;
     cursor: not-allowed;
     opacity: 0.6;
+}
+
+/* ============================================
+   NOTA DE PRIVACIDAD
+   ============================================ */
+.privacy-notice {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #2a2a2a;
+    border-radius: 8px;
+    border-left: 4px solid #1db954;
+    text-align: left;
+}
+
+.privacy-text {
+    color: #e7ebda;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.privacy-text strong {
+    color: #1db954;
+}
+
+.github-link {
+    color: #1db954;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+}
+
+.github-link:hover {
+    color: #1ed760;
+}
+
+/* ============================================
+   SECCIÓN DE TUTORIAL
+   ============================================ */
+.tutorial-section {
+    margin-top: 50px;
+    padding: 30px;
+    background-color: #2a2a2a;
+    border-radius: 12px;
+    border: 2px solid #e7ebda;
+    text-align: left;
+}
+
+.tutorial-title {
+    color: #ffffff;
+    font-size: 1.8em;
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.tutorial-intro {
+    color: #e7ebda;
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.tutorial-intro code {
+    background-color: #1f1f1f;
+    padding: 3px 8px;
+    border-radius: 4px;
+    color: #1db954;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+}
+
+.tutorial-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.tutorial-step {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    background-color: #1f1f1f;
+    border-radius: 8px;
+    border-left: 4px solid #1db954;
+    transition: transform 0.2s ease;
+}
+
+.tutorial-step:hover {
+    transform: translateX(5px);
+}
+
+.step-number {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #1db954 0%, #1ed760 100%);
+    color: #000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.step-content {
+    flex: 1;
+}
+
+.step-content h3 {
+    color: #ffffff;
+    font-size: 1.2em;
+    margin: 0 0 10px 0;
+    font-weight: 600;
+}
+
+.step-content p {
+    color: #e7ebda;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 8px 0;
+}
+
+.step-content code {
+    background-color: #2a2a2a;
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: #1db954;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+}
+
+.step-note {
+    color: #1db954 !important;
+    font-weight: 500;
+    font-style: italic;
+}
+
+.step-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    margin-top: 15px;
+    border: 2px solid #444;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.external-link {
+    color: #1db954;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+}
+
+.external-link:hover {
+    color: #1ed760;
 }
