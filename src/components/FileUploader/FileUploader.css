@@ -1,25 +1,151 @@
 .file-uploader{
     padding: 20px;
     font-family: 'Arial';
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
 }
 
+.file-uploader h1 {
+    color: #ffffff;
+    margin-bottom: 30px;
+}
+
+/* ============================================
+   SECCIÓN DE DATOS DE MUESTRA
+   ============================================ */
+.sample-data-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: #2a2a2a;
+    border-radius: 8px;
+    border: 2px solid #1db954;
+}
+
+.sample-data-button {
+    padding: 12px 30px;
+    background-color: #1db954;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-bottom: 10px;
+    min-width: 200px;
+}
+
+.sample-data-button:hover:not(:disabled) {
+    background-color: #1ed760;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(29, 185, 84, 0.4);
+}
+
+.sample-data-button:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.sample-data-description {
+    color: #a0a0a0;
+    font-size: 14px;
+    margin: 0;
+}
+
+.separator {
+    color: #a0a0a0;
+    font-size: 18px;
+    font-weight: 500;
+    margin: 25px 0;
+    position: relative;
+}
+
+.separator::before,
+.separator::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 1px;
+    background-color: #444;
+}
+
+.separator::before {
+    left: 0;
+}
+
+.separator::after {
+    right: 0;
+}
+
+/* ============================================
+   DRAG AND DROP
+   ============================================ */
 .drag-and-drop{
     border: 2px dashed #007bff;
-    padding: 20px;
-    border-radius: 5px;
+    padding: 40px 20px;
+    border-radius: 8px;
     text-align: center;
     cursor: pointer;
+    background-color: #1f1f1f;
+    transition: all 0.3s ease;
+    color: #ffffff;
 }
 
+.drag-and-drop:hover {
+    border-color: #1db954;
+    background-color: #2a2a2a;
+}
+
+.drag-and-drop p {
+    color: #ffffff;
+    margin: 0;
+}
+
+.drag-and-drop h4 {
+    color: #1db954;
+    margin-bottom: 10px;
+}
+
+.drag-and-drop ul {
+    list-style: none;
+    padding: 0;
+    color: #e7ebda;
+}
+
+.drag-and-drop li {
+    padding: 5px 0;
+}
+
+/* ============================================
+   BOTÓN GENERAR INFORME
+   ============================================ */
 .divButton{
-    margin-top: 20px
+    margin-top: 30px;
 }
 
 .generar-informe{
-    padding: 10px 20px;
+    padding: 12px 40px;
     background-color: #007bff;
     color: white;
     border: none;
-    border-radius: 5px;
-    cursor: pointer
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.generar-informe:hover:not(:disabled) {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+}
+
+.generar-informe:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+    opacity: 0.6;
 }
