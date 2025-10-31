@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect, useState } from "react";
 import {
     BarChart,
     Bar,
@@ -22,6 +22,28 @@ const HoursDistribution: React.FC<HoursDistributionProps> = ({
     fromDate,
     toDate,
 }) => {
+    const chartWrapperRef = useRef<HTMLDivElement>(null);
+    const [chartWidth, setChartWidth] = useState<number | string>('100%');
+
+    useEffect(() => {
+        const updateWidth = () => {
+            if (chartWrapperRef.current) {
+                // Usar el ancho del wrapper directamente
+                const width = chartWrapperRef.current.offsetWidth;
+                setChartWidth(width);
+            }
+        };
+
+        // Pequeño delay para asegurar que el DOM esté renderizado
+        const timer = setTimeout(updateWidth, 100);
+        updateWidth();
+        window.addEventListener('resize', updateWidth);
+        return () => {
+            clearTimeout(timer);
+            window.removeEventListener('resize', updateWidth);
+        };
+    }, []);
+
     // Convertir las fechas seleccionadas a objetos Date
     const startDate = fromDate ? new Date(fromDate) : null;
     const endDate = toDate ? new Date(toDate) : null;
@@ -57,13 +79,15 @@ const HoursDistribution: React.FC<HoursDistributionProps> = ({
     const adjustedMax = Math.ceil(maxHours * 1.1); // Añadir un 10% y redondear hacia arriba
 
     return (
-        <div className="container">
-            <h3>Distribución por Hora</h3>
-            <div style={{ width: "100%", height: "300px", display: "flex", justifyContent: "center" }}>
-                <ResponsiveContainer width="100%">
+        <div className="hours-distribution-container">
+            <h3 className="hours-distribution-title">Distribución por Hora</h3>
+            <div className="hours-distribution-chart-wrapper" ref={chartWrapperRef} style={{ width: '100%', height: '350px' }}>
+                <ResponsiveContainer width={chartWidth} height="100%">
                     <BarChart
                         data={chartData}
-                        margin={{ top: 20, bottom: 30 }}
+                        margin={{ top: 20, right: 5, bottom: 40, left: 5 }}
+                        barCategoryGap="1%"
+                        maxBarSize={100}
                     >
                         <CartesianGrid strokeDasharray="3 3" stroke="#A1A1AA" />
                         <XAxis dataKey="hour" stroke="#FFF">

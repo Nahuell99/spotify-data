@@ -1,13 +1,50 @@
-.container{
+/* ============================================
+   CONTENEDOR DE DISTRIBUCIÓN POR HORAS
+   ============================================ */
+.hours-distribution-container {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 20px;
     background-color: #1f1f1f;
     border-radius: 8px;
-    width: 95%;
-    box-sizing: border-box;
-    margin: 0 auto;
-    display: contents
+    border: 2px solid #e7ebda;
+    display: block;
+    overflow: visible;
 }
 
-.container h3{
+.hours-distribution-title {
     color: #FFF;
-    text-align: center
+    text-align: center;
+    margin: 0 0 20px 0;
+    font-size: 1.5em;
+    font-weight: 600;
+}
+
+/* ============================================
+   WRAPPER DEL GRÁFICO
+   ============================================ */
+.hours-distribution-chart-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 350px;
+    min-height: 350px;
+    display: block;
+    position: relative;
+    box-sizing: border-box;
+    overflow: visible;
+    margin: 0;
+    padding: 0;
+}
+
+/* Asegurar que el SVG y el contenedor de Recharts ocupen todo el ancho */
+.hours-distribution-chart-wrapper svg {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+.hours-distribution-chart-wrapper > div {
+    width: 100% !important;
+    max-width: 100% !important;
 }

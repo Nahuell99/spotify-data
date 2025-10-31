@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
+import React, { useState, useRef, useEffect } from "react";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import './tabContent.css';
 
 interface TabContentProps {
@@ -10,6 +10,26 @@ interface TabContentProps {
 }
 
 const TabContent: React.FC<TabContentProps> = ({ data, groupingKey, fromDate, toDate }) => {
+  const chartContainerRef = useRef<HTMLDivElement>(null);
+  const [chartWidth, setChartWidth] = useState<number | string>('100%');
+
+  useEffect(() => {
+    const updateWidth = () => {
+      if (chartContainerRef.current) {
+        const width = chartContainerRef.current.offsetWidth;
+        setChartWidth(width);
+      }
+    };
+
+    const timer = setTimeout(updateWidth, 100);
+    updateWidth();
+    window.addEventListener('resize', updateWidth);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', updateWidth);
+    };
+  }, []);
+
   // Filtrar datos por fecha
   const filteredData = data.filter((entry) => {
     const entryDate = new Date(entry.ts);
@@ -42,29 +62,29 @@ const TabContent: React.FC<TabContentProps> = ({ data, groupingKey, fromDate, to
     .slice(0, 10);
 
   return (
-    <div className="tab-content-container">
-      {/* Gráfico de barras */}
-      <div className="chart-container">
-        <h3 className="chart-title">Gráfico de barras</h3>
-        <BarChart width={400} height={300} data={chartData}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#A1A1AA" />
-          <XAxis dataKey="name" stroke="#FFF" />
-          <YAxis stroke="#FFF" />
-          <Tooltip contentStyle={{ backgroundColor: "#333", color: "#FFF" }} />
-          <Legend wrapperStyle={{ color: "#FFF" }} />
-          <Bar dataKey="totalHours" fill="#8884d8" />
-        </BarChart>
+    <div className="tab-content-wrapper">
+      {/* Gráfico de barras verticales */}
+      <div className="tab-chart-container" ref={chartContainerRef}>
+        <ResponsiveContainer width={chartWidth} height={350}>
+          <BarChart data={chartData} margin={{ top: 20, right: 10, bottom: 40, left: 10 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#A1A1AA" />
+            <XAxis dataKey="name" stroke="#FFF" />
+            <YAxis stroke="#FFF" />
+            <Tooltip contentStyle={{ backgroundColor: "#333", color: "#FFF" }} />
+            <Legend wrapperStyle={{ color: "#FFF" }} />
+            <Bar dataKey="totalHours" fill="#8884d8" name="Horas acumuladas" />
+          </BarChart>
+        </ResponsiveContainer>
       </div>
 
-      {/* Tabla */}
-      <div className="table-container">
-        <h3 className="table-title">Detalles</h3>
-        <table className="data-table">
+      {/* Tabla de detalles */}
+      <div className="tab-table-container">
+        <table className="tab-data-table">
           <thead>
             <tr>
               <th>Nombre</th>
               <th>Cantidad Única</th>
-              <th>Sumatoria de Tiempo (horas)</th>
+              <th>Acumulado (horas)</th>
             </tr>
           </thead>
           <tbody>
@@ -95,20 +115,20 @@ const Tabs: React.FC<{ files: any[], fromDate: string, toDate: string }> = ({ fi
 
   return (
     <div className="tabs-container">
-      {/* Tab Bar */}
-      <div className="tab-bar">
+      {/* Barra de pestañas */}
+      <div className="tabs-bar">
         {tabs.map((tab) => (
-          <div
+          <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`tab-item ${activeTab === tab.id ? 'active' : ''}`}
+            className={`tabs-button ${activeTab === tab.id ? 'tabs-button-active' : ''}`}
           >
             {tab.label}
-          </div>
+          </button>
         ))}
       </div>
 
-      {/* Content for Active Tab */}
+      {/* Contenido de la pestaña activa */}
       <TabContent data={combinedData} groupingKey={activeTab} fromDate={fromDate} toDate={toDate} />
     </div>
   );

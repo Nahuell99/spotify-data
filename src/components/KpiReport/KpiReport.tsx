@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { formatTime } from '../../functions'; // Asegúrate de que la ruta sea correcta
+import { formatTime, formatNumber } from '../../functions';
 import Tabs from '../tabContent/tabContent';
 import HoursDistribution from '../HoursDistribution/HoursDistribution';
+import { FaClock, FaMusic, FaUser, FaFolder } from 'react-icons/fa';
 import './KpiReport.css'
 
-// @ts-ignore
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
 const KpiReport: React.FC<{ files: UploadedFile[] }> = ({ files }) => {
   const [dateFrom, setDateFrom] = useState<string>('');
   const [dateTo, setDateTo] = useState<string>('');
@@ -74,66 +76,101 @@ const KpiReport: React.FC<{ files: UploadedFile[] }> = ({ files }) => {
   const { totalTime, uniqueTracks, uniqueArtists, uniqueAlbums } = calculateKPIs();
 
   return (
-
-    <div className='conteiner'>
-      {/* Botón de flecha flotante */}
-      <Link to="/" className='flecha-flotante'>
-        &#8592; {/* Flecha hacia la izquierda */}
+    <div className='main-container'>
+      {/* Botón de flecha flotante para volver */}
+      <Link to="/" className='back-button'>
+        &#8592;
       </Link>
 
-      <div className='contenedor-inputs'>
-        <h1>Tus estadísticas de uso de Spotify</h1>
-        <div className='contenedor-fechas-anos'>
-          <div style={{ marginBottom: '20px' }}>
+      <div className='content-wrapper'>
+        {/* Título principal */}
+        <h1 className='main-title'>Tus estadísticas de uso de Spotify</h1>
+
+        {/* Sección 1: Filtros de fechas */}
+        <section className='date-filter-section'>
+          <div className='date-inputs'>
             <input
-              className='date-from'
+              className='date-input date-input-from'
               type="date"
               value={dateFrom}
               onChange={(e) => setDateFrom(e.target.value)}
             />
             <input
-              className='date-to'
+              className='date-input date-input-to'
               type="date"
               value={dateTo}
               onChange={(e) => setDateTo(e.target.value)}
-              style={{  }}
             />
           </div>
 
-          {/* Botones de atajo */}
-          <div>
+          <div className='date-shortcuts'>
             {availableYears.map((year) => (
-              <button className='atajo-ano' key={year} onClick={() => handleYearButtonClick(year)}>
+              <button 
+                className='shortcut-button shortcut-button-year' 
+                key={year} 
+                onClick={() => handleYearButtonClick(year)}
+              >
                 {year}
               </button>
             ))}
-            <button className='atajo-total' onClick={handleTotalButtonClick}>
+            <button 
+              className='shortcut-button shortcut-button-total' 
+              onClick={handleTotalButtonClick}
+            >
               TOTAL
             </button>
           </div>
-        </div>
+        </section>
 
-        {/* Caja contenedora de los KPIs */}
-        <div className='kpi-conteiner'>
-          <div className='kpi-box'>
-            <h3>Total de tiempo escuchado</h3>
-            <p>{formatTime(totalTime)}</p>
+        {/* Sección 2: Cards de KPIs */}
+        <section className='kpi-cards-section'>
+          <div className='kpi-card'>
+            <div className='kpi-card-header'>
+              <div className='kpi-card-icon'>
+                <FaClock />
+              </div>
+              <h3 className='kpi-card-title'>Total de tiempo escuchado</h3>
+            </div>
+            <p className='kpi-card-value'>{formatTime(totalTime)}</p>
           </div>
-          <div className='kpi-box'>
-            <h3>Total de canciones distintas</h3>
-            <p>{uniqueTracks}</p>
+          <div className='kpi-card'>
+            <div className='kpi-card-header'>
+              <div className='kpi-card-icon'>
+                <FaMusic />
+              </div>
+              <h3 className='kpi-card-title'>Total de canciones distintas</h3>
+            </div>
+            <p className='kpi-card-value'>{formatNumber(uniqueTracks)}</p>
           </div>
-          <div className='kpi-box'>
-            <h3>Total de artistas distintos</h3>
-            <p>{uniqueArtists}</p>
+          <div className='kpi-card'>
+            <div className='kpi-card-header'>
+              <div className='kpi-card-icon'>
+                <FaUser />
+              </div>
+              <h3 className='kpi-card-title'>Total de artistas distintos</h3>
+            </div>
+            <p className='kpi-card-value'>{formatNumber(uniqueArtists)}</p>
           </div>
-          <div className='kpi-box'>
-            <h3>Total de álbumes distintos</h3>
-            <p>{uniqueAlbums}</p>
+          <div className='kpi-card'>
+            <div className='kpi-card-header'>
+              <div className='kpi-card-icon'>
+                <FaFolder />
+              </div>
+              <h3 className='kpi-card-title'>Total de álbumes distintos</h3>
+            </div>
+            <p className='kpi-card-value'>{formatNumber(uniqueAlbums)}</p>
           </div>
-        </div>
-        <Tabs files={files} fromDate={dateFrom} toDate={dateTo} />
-        <HoursDistribution files={files} fromDate={dateFrom} toDate={dateTo} />
+        </section>
+
+        {/* Sección 3: Tabs de Tops (Canciones, Álbumes, Artistas) */}
+        <section className='tabs-section'>
+          <Tabs files={files} fromDate={dateFrom} toDate={dateTo} />
+        </section>
+
+        {/* Sección 4: Distribución por horas del día */}
+        <section className='hours-distribution-section'>
+          <HoursDistribution files={files} fromDate={dateFrom} toDate={dateTo} />
+        </section>
       </div>
     </div>
   );

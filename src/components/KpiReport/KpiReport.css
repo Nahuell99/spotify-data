@@ -1,97 +1,218 @@
-.conteiner{
+/* ============================================
+   CONTENEDOR PRINCIPAL (Fondo gris)
+   ============================================ */
+.main-container {
     padding: 20px;
-    font-family: "Arial";
+    font-family: "Arial", sans-serif;
     text-align: center;
-    max-width: 1500px;
+    max-width: 1800px;
+    margin: 0 auto;
+    background-color: #242424;
+    min-height: 100vh;
 }
 
-.flecha-flotante{
+/* Botón de retroceso flotante */
+.back-button {
     position: fixed;
     top: 20px;
     left: 20px;
     background-color: #007bff;
     color: white;
     border-radius: 50%;
-    padding: '10px';
-    font-size: '20px';
-    text-decoration: 'none';
-    display: 'flex';
-    align-items: 'center';
-    justify-content: 'center';
-    box-shadow: '0 4px 8px rgba(0, 0, 0, 0.2)';
-    cursor: 'pointer';
-    z-index: 1000
+    padding: 10px;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    z-index: 1000;
+    transition: background-color 0.3s ease;
 }
 
-.contenedor-inputs{
+.back-button:hover {
+    background-color: #0056b3;
+}
+
+/* ============================================
+   CONTENEDOR DE CONTENIDO (Cabecera principal)
+   ============================================ */
+.content-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 20px;
+    justify-content: flex-start;
+    padding: 30px;
     background-color: #1f1f1f;
     border-radius: 18px;
-    width: 80%;
+    width: 90%;
+    margin: 0 auto;
+    gap: 30px;
 }
 
-.contenedor-fechas-anos{
+.main-title {
+    color: #ffffff;
+    font-size: 2.5em;
+    margin: 0 0 10px 0;
+    font-weight: 600;
+}
+
+/* ============================================
+   SECCIÓN 1: FILTROS DE FECHAS
+   ============================================ */
+.date-filter-section {
+    width: 100%;
     padding: 20px;
     border: 2px solid #e7ebda;
     border-radius: 8px;
-    text-align: center;
+    background-color: #2a2a2a;
+    box-sizing: border-box;
+}
+
+.date-inputs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
     margin-bottom: 20px;
-    display: block;
-    width: 95%;
-    margin: 0 auto;
-    box-sizing: border-box
 }
 
-.date-from{
-    margin-right: 10px;
+.date-input {
     padding: 10px;
     border-radius: 5px;
-    border: 1px solid #ccc
+    border: 1px solid #ccc;
+    background-color: #1f1f1f;
+    color: #ffffff;
+    font-size: 14px;
 }
 
-.date-to{
-    padding: 10px;
+.date-input:focus {
+    outline: none;
+    border-color: #1db954;
+}
+
+.date-shortcuts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+}
+
+.shortcut-button {
+    padding: 10px 20px;
+    border: none;
     border-radius: 5px;
-    border: 1px solid #ccc
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
 }
 
-.atajo-ano{
-    margin: 5px;
-    padding: 10px;
+.shortcut-button-year {
     background-color: #007bff;
     color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer
 }
 
-.atajo-total{
-    margin: 5px;
-    padding: 10px;
+.shortcut-button-year:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.shortcut-button-total {
     background-color: #28a745;
     color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer
 }
 
-.kpi-conteiner{
-    justify-content: space-around;
-    margin-top: 20px;
-    margin-bottom: 20px;
+.shortcut-button-total:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   SECCIÓN 2: CARDS DE KPIs
+   ============================================ */
+.kpi-cards-section {
+    width: 100%;
     display: flex;
-    width: 95%;
-    margin: 0 auto;
-    box-sizing: border-box
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: nowrap;
+    box-sizing: border-box;
 }
 
-.kpi-box{
+.kpi-card {
     border: 2px solid #e7ebda;
-    padding: 15px;
-    border-radius: 8px;
-    width: 200px
+    padding: 16px;
+    border-radius: 12px;
+    flex: 1;
+    min-width: 0;
+    background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 110px;
+}
+
+.kpi-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    border-color: #1db954;
+}
+
+.kpi-card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.kpi-card-icon {
+    font-size: 24px;
+    color: #1db954;
+    opacity: 0.9;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.kpi-card-title {
+    margin: 0;
+    font-size: 13px;
+    color: #a0a0a0;
+    font-weight: 500;
+    text-align: left;
+    line-height: 1.4;
+    flex: 1;
+}
+
+.kpi-card-value {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 700;
+    color: #1db954;
+    text-align: left;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+}
+
+/* ============================================
+   SECCIÓN 3: TABS SECTION (Contenedor para el componente Tabs)
+   ============================================ */
+.tabs-section {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* ============================================
+   SECCIÓN 4: DISTRIBUCIÓN POR HORAS (Contenedor para HoursDistribution)
+   ============================================ */
+.hours-distribution-section {
+    width: 100%;
+    box-sizing: border-box;
 }
