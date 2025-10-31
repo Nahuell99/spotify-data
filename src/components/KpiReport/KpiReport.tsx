@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { formatTime, formatNumber } from '../../functions';
+import { formatTime, formatNumber, formatPercentage } from '../../functions';
 import Tabs from '../tabContent/tabContent';
 import HoursDistribution from '../HoursDistribution/HoursDistribution';
-import { FaClock, FaMusic, FaUser, FaFolder } from 'react-icons/fa';
+import PlatformDistribution from '../PlatformDistribution/PlatformDistribution';
+import { FaClock, FaMusic, FaUser, FaFolder, FaCalendarDay, FaForward, FaCheckCircle, FaStopwatch } from 'react-icons/fa';
 import './KpiReport.css'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -65,15 +66,42 @@ const KpiReport: React.FC<{ files: UploadedFile[] }> = ({ files }) => {
     // Total de álbumes distintos
     const uniqueAlbums = new Set(filteredData.map((entry: any) => entry.master_metadata_album_album_name));
 
+    // Promedio de tiempo acumulado escuchando por día
+    const uniqueDays = new Set<string>();
+    filteredData.forEach((entry: any) => {
+      if (entry.ts) {
+        const date = new Date(entry.ts);
+        const dateString = date.toISOString().split('T')[0]; // Formato: YYYY-MM-DD
+        uniqueDays.add(dateString);
+      }
+    });
+    const averageTimePerDay = uniqueDays.size > 0 ? totalTime / uniqueDays.size : 0;
+
+    // Porcentaje de sesiones con "skip"
+    const totalSessions = filteredData.length;
+    const sessionsWithSkip = filteredData.filter((entry: any) => entry.skipped === true).length;
+    const percentageWithSkip = totalSessions > 0 ? (sessionsWithSkip / totalSessions) * 100 : 0;
+
+    // Porcentaje de sesiones SIN "skip" (Escuchadas completas)
+    const sessionsWithoutSkip = filteredData.filter((entry: any) => entry.skipped === false).length;
+    const percentageWithoutSkip = totalSessions > 0 ? (sessionsWithoutSkip / totalSessions) * 100 : 0;
+
+    // Promedio de duración por track reproducido
+    const averageDurationPerTrack = totalSessions > 0 ? totalTime / totalSessions : 0;
+
     return {
       totalTime,
       uniqueTracks: uniqueTracks.size,
       uniqueArtists: uniqueArtists.size,
       uniqueAlbums: uniqueAlbums.size,
+      averageTimePerDay,
+      percentageWithSkip,
+      percentageWithoutSkip,
+      averageDurationPerTrack,
     };
   };
 
-  const { totalTime, uniqueTracks, uniqueArtists, uniqueAlbums } = calculateKPIs();
+  const { totalTime, uniqueTracks, uniqueArtists, uniqueAlbums, averageTimePerDay, percentageWithSkip, percentageWithoutSkip, averageDurationPerTrack } = calculateKPIs();
 
   return (
     <div className='main-container'>
@@ -162,6 +190,46 @@ const KpiReport: React.FC<{ files: UploadedFile[] }> = ({ files }) => {
           </div>
         </section>
 
+        {/* Sección 2.1: Cards de KPIs adicionales */}
+        <section className='kpi-cards-section'>
+          <div className='kpi-card'>
+            <div className='kpi-card-header'>
+              <div className='kpi-card-icon'>
+                <FaCalendarDay />
+              </div>
+              <h3 className='kpi-card-title'>Promedio de tiempo acumulado escuchando por día</h3>
+            </div>
+            <p className='kpi-card-value'>{formatTime(averageTimePerDay)}</p>
+          </div>
+          <div className='kpi-card'>
+            <div className='kpi-card-header'>
+              <div className='kpi-card-icon'>
+                <FaForward />
+              </div>
+              <h3 className='kpi-card-title'>Porcentaje de sesiones con "skip"</h3>
+            </div>
+            <p className='kpi-card-value'>{formatPercentage(percentageWithSkip)}</p>
+          </div>
+          <div className='kpi-card'>
+            <div className='kpi-card-header'>
+              <div className='kpi-card-icon'>
+                <FaCheckCircle />
+              </div>
+              <h3 className='kpi-card-title'>Porcentaje de sesiones SIN "skip" (Escuchadas completas)</h3>
+            </div>
+            <p className='kpi-card-value'>{formatPercentage(percentageWithoutSkip)}</p>
+          </div>
+          <div className='kpi-card'>
+            <div className='kpi-card-header'>
+              <div className='kpi-card-icon'>
+                <FaStopwatch />
+              </div>
+              <h3 className='kpi-card-title'>Promedio de duración por track reproducido</h3>
+            </div>
+            <p className='kpi-card-value'>{formatTime(averageDurationPerTrack)}</p>
+          </div>
+        </section>
+
         {/* Sección 3: Tabs de Tops (Canciones, Álbumes, Artistas) */}
         <section className='tabs-section'>
           <Tabs files={files} fromDate={dateFrom} toDate={dateTo} />
@@ -170,6 +238,11 @@ const KpiReport: React.FC<{ files: UploadedFile[] }> = ({ files }) => {
         {/* Sección 4: Distribución por horas del día */}
         <section className='hours-distribution-section'>
           <HoursDistribution files={files} fromDate={dateFrom} toDate={dateTo} />
+        </section>
+
+        {/* Sección 5: Distribución por plataformas */}
+        <section className='platform-distribution-section'>
+          <PlatformDistribution files={files} fromDate={dateFrom} toDate={dateTo} />
         </section>
       </div>
     </div>

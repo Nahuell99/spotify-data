@@ -11,3 +11,7 @@ export const formatTime = (timeInMs: number) => {
 export const formatNumber = (num: number): string => {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   };
+
+export const formatPercentage = (num: number): string => {
+    return `${num.toFixed(1)}%`;
+  };

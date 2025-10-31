@@ -1,0 +1,116 @@
+/* ============================================
+   CONTENEDOR DE DISTRIBUCIÓN POR PLATAFORMAS
+   ============================================ */
+.platform-distribution-container {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 20px;
+    background-color: #1f1f1f;
+    border-radius: 8px;
+    border: 2px solid #e7ebda;
+    display: block;
+    overflow: visible;
+}
+
+.platform-distribution-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.platform-distribution-title {
+    color: #FFF;
+    text-align: left;
+    margin: 0;
+    font-size: 1.5em;
+    font-weight: 600;
+    flex: 1;
+}
+
+.platform-back-button {
+    background-color: #82ca9d;
+    color: #1f1f1f;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.platform-back-button:hover {
+    background-color: #6bb68d;
+}
+
+.platform-back-button:active {
+    transform: scale(0.98);
+}
+
+/* ============================================
+   WRAPPER DEL GRÁFICO
+   ============================================ */
+.platform-distribution-chart-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 350px;
+    min-height: 350px;
+    display: block;
+    position: relative;
+    box-sizing: border-box;
+    overflow: visible;
+    margin: 0;
+    padding: 0;
+}
+
+/* Asegurar que el SVG y el contenedor de Recharts ocupen todo el ancho */
+.platform-distribution-chart-wrapper svg {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+.platform-distribution-chart-wrapper > div {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+/* Estilos específicos para los elementos internos de Recharts */
+.platform-distribution-chart-wrapper .recharts-responsive-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+}
+
+.platform-distribution-chart-wrapper .recharts-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+}
+
+.platform-distribution-chart-wrapper .recharts-surface {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+}
+
+/* Forzar que todos los elementos internos ocupen el 100% */
+.platform-distribution-chart-wrapper .recharts-responsive-container > div {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+}
+
+/* ============================================
+   HINT
+   ============================================ */
+.platform-hint {
+    color: #A1A1AA;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 0.9em;
+    font-style: italic;
+}
+

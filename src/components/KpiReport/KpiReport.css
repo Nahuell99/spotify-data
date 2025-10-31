@@ -216,3 +216,11 @@
     width: 100%;
     box-sizing: border-box;
 }
+
+/* ============================================
+   SECCIÓN 5: DISTRIBUCIÓN POR PLATAFORMAS (Contenedor para PlatformDistribution)
+   ============================================ */
+.platform-distribution-section {
+    width: 100%;
+    box-sizing: border-box;
+}
