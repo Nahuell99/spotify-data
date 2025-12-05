@@ -18,6 +18,7 @@
     border-radius: 16px;
     overflow: hidden;
     margin-bottom: 20px;
+    flex-wrap: wrap;
 }
 
 .tabs-button {
@@ -28,10 +29,13 @@
     border: none;
     background-color: transparent;
     color: #000;
-    font-size: 16px;
+    font-size: clamp(13px, 3.5vw, 16px);
     font-weight: 500;
     transition: all 0.3s ease;
     border-right: 1px solid #A1A1AA;
+    min-width: 0;
+    box-sizing: border-box;
+    word-wrap: break-word;
 }
 
 .tabs-button:last-child {
@@ -67,8 +71,10 @@
     background-color: #1f1f1f;
     border-radius: 8px;
     border: 2px solid #e7ebda;
-    overflow: visible;
+    overflow-x: auto;
+    overflow-y: visible;
     box-sizing: border-box;
+    -webkit-overflow-scrolling: touch;
 }
 
 /* ============================================
@@ -76,6 +82,7 @@
    ============================================ */
 .tab-data-table {
     width: 100%;
+    min-width: 600px;
     color: #FFF;
     border-collapse: collapse;
     table-layout: auto;
@@ -87,6 +94,7 @@
     padding: 12px;
     text-align: left;
     border-bottom: 1px solid #444;
+    box-sizing: border-box;
 }
 
 .tab-data-table thead tr {
@@ -98,6 +106,8 @@
     color: #1db954;
     overflow: visible;
     position: relative;
+    font-size: clamp(12px, 3vw, 14px);
+    white-space: nowrap;
 }
 
 .tab-data-table tbody tr {
@@ -110,6 +120,7 @@
 
 .tab-data-table tbody td {
     color: #e7ebda;
+    font-size: clamp(11px, 2.5vw, 13px);
 }
 
 .tab-data-table tbody td:first-child {
@@ -127,6 +138,18 @@
     white-space: nowrap;
     position: relative;
     cursor: help;
+}
+
+@media (max-width: 768px) {
+    .tab-data-table td.text-cell-with-tooltip {
+        max-width: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .tab-data-table td.text-cell-with-tooltip {
+        max-width: 100px;
+    }
 }
 
 /* ============================================
@@ -247,6 +270,7 @@
     margin-top: 20px;
     padding-top: 15px;
     border-top: 1px solid #444;
+    flex-wrap: wrap;
 }
 
 .tab-pagination-button {
@@ -255,9 +279,11 @@
     border: 1px solid #444;
     border-radius: 4px;
     padding: 8px 16px;
-    font-size: 14px;
+    font-size: clamp(12px, 3vw, 14px);
     cursor: pointer;
     transition: all 0.2s ease;
+    white-space: nowrap;
+    box-sizing: border-box;
 }
 
 .tab-pagination-button:hover:not(:disabled) {
@@ -272,5 +298,140 @@
 
 .tab-pagination-info {
     color: #A1A1AA;
-    font-size: 14px;
+    font-size: clamp(11px, 2.5vw, 14px);
+    text-align: center;
+    word-wrap: break-word;
+}
+
+/* ============================================
+   MEDIA QUERIES - RESPONSIVE DESIGN
+   ============================================ */
+
+/* Tablets y pantallas medianas */
+@media (max-width: 768px) {
+    .tabs-bar {
+        margin-bottom: 15px;
+        border-width: 3px;
+    }
+
+    .tabs-button {
+        padding: 10px 15px;
+    }
+
+    .tab-table-container {
+        padding: 15px;
+    }
+
+    .tab-data-table {
+        min-width: 500px;
+    }
+
+    .tab-data-table th,
+    .tab-data-table td {
+        padding: 10px 8px;
+    }
+
+    .tab-pagination {
+        gap: 10px;
+        margin-top: 15px;
+        padding-top: 12px;
+    }
+
+    .tab-pagination-button {
+        padding: 6px 12px;
+    }
+}
+
+/* Móviles */
+@media (max-width: 480px) {
+    .tabs-bar {
+        margin-bottom: 12px;
+        border-width: 2px;
+        border-radius: 12px;
+    }
+
+    .tabs-button {
+        padding: 8px 10px;
+        border-right: none;
+        border-bottom: 1px solid #A1A1AA;
+    }
+
+    .tabs-button:last-child {
+        border-bottom: none;
+    }
+
+    .tab-table-container {
+        padding: 10px;
+        border-width: 1px;
+    }
+
+    .tab-data-table {
+        min-width: 400px;
+        font-size: 12px;
+    }
+
+    .tab-data-table th,
+    .tab-data-table td {
+        padding: 8px 6px;
+        font-size: 11px;
+    }
+
+    .tab-data-table thead th {
+        font-size: 11px;
+    }
+
+    .tab-data-table tbody td {
+        font-size: 11px;
+    }
+
+    .tab-pagination {
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 12px;
+        padding-top: 10px;
+    }
+
+    .tab-pagination-button {
+        width: 100%;
+        max-width: 200px;
+        padding: 8px;
+    }
+
+    .tab-pagination-info {
+        font-size: 11px;
+        order: -1;
+    }
+
+    .sort-arrow {
+        font-size: 12px;
+    }
+
+    .tooltip-icon {
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        font-size: 10px;
+    }
+}
+
+/* Pantallas muy pequeñas */
+@media (max-width: 360px) {
+    .tabs-button {
+        padding: 6px 8px;
+        font-size: 12px;
+    }
+
+    .tab-table-container {
+        padding: 8px;
+    }
+
+    .tab-data-table {
+        min-width: 350px;
+    }
+
+    .tab-data-table th,
+    .tab-data-table td {
+        padding: 6px 4px;
+        font-size: 10px;
+    }
 }

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React from "react";
 import {
     BarChart,
     Bar,
@@ -10,9 +10,10 @@ import {
     Label,
     ResponsiveContainer
 } from "recharts";
+import { formatTime } from "../../functions";
 
 interface HoursDistributionProps {
-    files: { content: any[] }[];
+    files: { content: Array<{ ts: string; ms_played?: number }> }[];
     fromDate: string;
     toDate: string;
 }
@@ -22,27 +23,6 @@ const HoursDistribution: React.FC<HoursDistributionProps> = ({
     fromDate,
     toDate,
 }) => {
-    const chartWrapperRef = useRef<HTMLDivElement>(null);
-    const [chartWidth, setChartWidth] = useState<number | string>('100%');
-
-    useEffect(() => {
-        const updateWidth = () => {
-            if (chartWrapperRef.current) {
-                // Usar el ancho del wrapper directamente
-                const width = chartWrapperRef.current.offsetWidth;
-                setChartWidth(width);
-            }
-        };
-
-        // Pequeño delay para asegurar que el DOM esté renderizado
-        const timer = setTimeout(updateWidth, 100);
-        updateWidth();
-        window.addEventListener('resize', updateWidth);
-        return () => {
-            clearTimeout(timer);
-            window.removeEventListener('resize', updateWidth);
-        };
-    }, []);
 
     // Convertir las fechas seleccionadas a objetos Date
     const startDate = fromDate ? new Date(fromDate) : null;
@@ -72,6 +52,7 @@ const HoursDistribution: React.FC<HoursDistributionProps> = ({
     const chartData = hourGroups.map((totalMs, hour) => ({
         hour: hour.toString().padStart(2, "0"), // Formatear la hora como "00", "01", etc.
         totalHours: parseFloat((totalMs / (1000 * 60 * 60)).toFixed(2)), // Convertir ms a horas y redondear
+        totalMs: totalMs, // Guardar los milisegundos originales para el tooltip
     }));
 
     // Calcular el máximo de 'totalHours' y añadir un 10%
@@ -81,8 +62,8 @@ const HoursDistribution: React.FC<HoursDistributionProps> = ({
     return (
         <div className="hours-distribution-container">
             <h3 className="hours-distribution-title">Distribución por Hora</h3>
-            <div className="hours-distribution-chart-wrapper" ref={chartWrapperRef} style={{ width: '100%', height: '350px' }}>
-                <ResponsiveContainer width={chartWidth} height="100%">
+            <div className="hours-distribution-chart-wrapper">
+                <ResponsiveContainer width="100%" height={350}>
                     <BarChart
                         data={chartData}
                         margin={{ top: 20, right: 5, bottom: 40, left: 5 }}
@@ -103,7 +84,15 @@ const HoursDistribution: React.FC<HoursDistributionProps> = ({
                             domain={[0, adjustedMax]}
                             tickFormatter={(value) => value.toFixed(0)}
                         />
-                        <Tooltip contentStyle={{ backgroundColor: "#333", color: "#FFF" }} />
+                        <Tooltip 
+                            contentStyle={{ backgroundColor: "#333", color: "#FFF", border: "1px solid #555" }}
+                            formatter={(_value: number, _name: string, props: { payload?: { totalMs?: number } }) => {
+                                // Usar los milisegundos originales para formatear correctamente
+                                const totalMs = props.payload?.totalMs || 0;
+                                return [formatTime(totalMs), "Consumo acumulado"];
+                            }}
+                            labelFormatter={(label) => `Hora: ${label}:00`}
+                        />
                         <Legend wrapperStyle={{ color: "#FFF" }} layout="horizontal" align="center" verticalAlign="top" />
                         <Bar dataKey="totalHours" fill="#82ca9d" name="Consumo acumulado en horas" />
                     </BarChart>

@@ -109,7 +109,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({ setFiles }) => {
         <input {...getInputProps()} />
         <p>Arrastrá y soltá los archivos JSON aquí, o haz clic para seleccionarlos</p>
         {files.length > 0 && (
-          <div style={{ marginTop: "20px" }}>
+          <div className="uploaded-files-list">
             <h4>Archivos cargados:</h4>
             <ul>
               {files.map((file, index) => (

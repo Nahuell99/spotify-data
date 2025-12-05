@@ -4,11 +4,15 @@
     max-width: 900px;
     margin: 0 auto;
     text-align: center;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .file-uploader h1 {
     color: #ffffff;
     margin-bottom: 30px;
+    font-size: clamp(1.8rem, 5vw, 3.2rem);
+    line-height: 1.2;
 }
 
 /* ============================================
@@ -20,6 +24,7 @@
     background-color: #2a2a2a;
     border-radius: 8px;
     border: 2px solid #1db954;
+    box-sizing: border-box;
 }
 
 .sample-data-button {
@@ -29,11 +34,13 @@
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: clamp(14px, 4vw, 16px);
     font-weight: 600;
     transition: all 0.3s ease;
     margin-bottom: 10px;
     min-width: 200px;
+    width: 100%;
+    max-width: 300px;
 }
 
 .sample-data-button:hover:not(:disabled) {
@@ -50,16 +57,18 @@
 
 .sample-data-description {
     color: #a0a0a0;
-    font-size: 14px;
+    font-size: clamp(12px, 3vw, 14px);
     margin: 0;
+    padding: 0 10px;
 }
 
 .separator {
     color: #a0a0a0;
-    font-size: 18px;
+    font-size: clamp(16px, 4vw, 18px);
     font-weight: 500;
     margin: 25px 0;
     position: relative;
+    padding: 0 20px;
 }
 
 .separator::before,
@@ -67,7 +76,7 @@
     content: '';
     position: absolute;
     top: 50%;
-    width: 40%;
+    width: calc(50% - 30px);
     height: 1px;
     background-color: #444;
 }
@@ -92,6 +101,7 @@
     background-color: #1f1f1f;
     transition: all 0.3s ease;
     color: #ffffff;
+    box-sizing: border-box;
 }
 
 .drag-and-drop:hover {
@@ -102,21 +112,42 @@
 .drag-and-drop p {
     color: #ffffff;
     margin: 0;
+    font-size: clamp(14px, 3.5vw, 16px);
+    padding: 0 10px;
 }
 
 .drag-and-drop h4 {
     color: #1db954;
     margin-bottom: 10px;
+    font-size: clamp(14px, 3.5vw, 16px);
 }
 
 .drag-and-drop ul {
     list-style: none;
     padding: 0;
     color: #e7ebda;
+    word-wrap: break-word;
+    text-align: left;
+    max-width: 100%;
 }
 
 .drag-and-drop li {
     padding: 5px 0;
+    font-size: clamp(12px, 3vw, 14px);
+    word-break: break-word;
+}
+
+.uploaded-files-list {
+    margin-top: 20px;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+@media (max-width: 480px) {
+    .uploaded-files-list {
+        margin-top: 15px;
+        padding: 0 5px;
+    }
 }
 
 /* ============================================
@@ -133,9 +164,11 @@
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: clamp(14px, 4vw, 16px);
     font-weight: 600;
     transition: all 0.3s ease;
+    width: 100%;
+    max-width: 300px;
 }
 
 .generar-informe:hover:not(:disabled) {
@@ -160,13 +193,15 @@
     border-radius: 8px;
     border-left: 4px solid #1db954;
     text-align: left;
+    box-sizing: border-box;
 }
 
 .privacy-text {
     color: #e7ebda;
-    font-size: 14px;
+    font-size: clamp(12px, 3vw, 14px);
     line-height: 1.6;
     margin: 0;
+    word-wrap: break-word;
 }
 
 .privacy-text strong {
@@ -196,22 +231,25 @@
     border-radius: 12px;
     border: 2px solid #e7ebda;
     text-align: left;
+    box-sizing: border-box;
 }
 
 .tutorial-title {
     color: #ffffff;
-    font-size: 1.8em;
+    font-size: clamp(1.3rem, 5vw, 1.8rem);
     margin-bottom: 15px;
     text-align: center;
     font-weight: 600;
+    line-height: 1.3;
 }
 
 .tutorial-intro {
     color: #e7ebda;
-    font-size: 15px;
+    font-size: clamp(13px, 3.5vw, 15px);
     line-height: 1.6;
     margin-bottom: 30px;
     text-align: center;
+    padding: 0 10px;
 }
 
 .tutorial-intro code {
@@ -220,7 +258,10 @@
     border-radius: 4px;
     color: #1db954;
     font-family: 'Courier New', monospace;
-    font-size: 13px;
+    font-size: clamp(11px, 2.5vw, 13px);
+    word-break: break-all;
+    display: inline-block;
+    max-width: 100%;
 }
 
 .tutorial-steps {
@@ -237,6 +278,8 @@
     border-radius: 8px;
     border-left: 4px solid #1db954;
     transition: transform 0.2s ease;
+    box-sizing: border-box;
+    flex-wrap: wrap;
 }
 
 .tutorial-step:hover {
@@ -247,6 +290,7 @@
     flex-shrink: 0;
     width: 40px;
     height: 40px;
+    min-width: 40px;
     background: linear-gradient(135deg, #1db954 0%, #1ed760 100%);
     color: #000;
     border-radius: 50%;
@@ -254,7 +298,7 @@
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    font-size: 18px;
+    font-size: clamp(16px, 4vw, 18px);
 }
 
 .step-content {
@@ -263,16 +307,18 @@
 
 .step-content h3 {
     color: #ffffff;
-    font-size: 1.2em;
+    font-size: clamp(1rem, 4vw, 1.2rem);
     margin: 0 0 10px 0;
     font-weight: 600;
+    line-height: 1.3;
 }
 
 .step-content p {
     color: #e7ebda;
-    font-size: 14px;
+    font-size: clamp(12px, 3vw, 14px);
     line-height: 1.6;
     margin: 8px 0;
+    word-wrap: break-word;
 }
 
 .step-content code {
@@ -281,7 +327,10 @@
     border-radius: 3px;
     color: #1db954;
     font-family: 'Courier New', monospace;
-    font-size: 12px;
+    font-size: clamp(10px, 2.5vw, 12px);
+    word-break: break-all;
+    display: inline-block;
+    max-width: 100%;
 }
 
 .step-note {
@@ -292,11 +341,14 @@
 
 .step-image {
     max-width: 100%;
+    width: 100%;
     height: auto;
     border-radius: 6px;
     margin-top: 15px;
     border: 2px solid #444;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    display: block;
+    object-fit: contain;
 }
 
 .external-link {
@@ -307,4 +359,198 @@
 
 .external-link:hover {
     color: #1ed760;
+}
+
+/* ============================================
+   MEDIA QUERIES - RESPONSIVE DESIGN
+   ============================================ */
+
+/* Tablets y pantallas medianas */
+@media (max-width: 768px) {
+    .file-uploader {
+        padding: 15px;
+    }
+
+    .sample-data-section {
+        padding: 15px;
+    }
+
+    .sample-data-button {
+        padding: 10px 20px;
+        min-width: auto;
+    }
+
+    .drag-and-drop {
+        padding: 30px 15px;
+    }
+
+    .tutorial-section {
+        padding: 20px;
+        margin-top: 30px;
+    }
+
+    .tutorial-step {
+        padding: 15px;
+        gap: 15px;
+    }
+
+    .step-number {
+        width: 35px;
+        height: 35px;
+        min-width: 35px;
+    }
+
+    .privacy-notice {
+        padding: 15px;
+    }
+
+    .separator::before,
+    .separator::after {
+        width: calc(50% - 25px);
+    }
+}
+
+/* Móviles pequeños */
+@media (max-width: 480px) {
+    .file-uploader {
+        padding: 10px;
+    }
+
+    .file-uploader h1 {
+        margin-bottom: 20px;
+    }
+
+    .sample-data-section {
+        padding: 12px;
+        margin-bottom: 20px;
+    }
+
+    .sample-data-button {
+        padding: 10px 15px;
+        font-size: 14px;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .sample-data-description {
+        font-size: 12px;
+        padding: 0 5px;
+    }
+
+    .separator {
+        margin: 20px 0;
+        padding: 0 15px;
+        font-size: 16px;
+    }
+
+    .separator::before,
+    .separator::after {
+        width: calc(50% - 20px);
+    }
+
+    .drag-and-drop {
+        padding: 25px 10px;
+    }
+
+    .drag-and-drop p {
+        font-size: 13px;
+        padding: 0 5px;
+    }
+
+    .divButton {
+        margin-top: 20px;
+    }
+
+    .generar-informe {
+        padding: 10px 20px;
+        width: 100%;
+        max-width: 100%;
+        font-size: 14px;
+    }
+
+    .privacy-notice {
+        padding: 12px;
+        margin-top: 20px;
+    }
+
+    .privacy-text {
+        font-size: 12px;
+    }
+
+    .tutorial-section {
+        padding: 15px;
+        margin-top: 25px;
+        border-width: 1px;
+    }
+
+    .tutorial-title {
+        margin-bottom: 12px;
+    }
+
+    .tutorial-intro {
+        margin-bottom: 20px;
+        padding: 0 5px;
+    }
+
+    .tutorial-steps {
+        gap: 15px;
+    }
+
+    .tutorial-step {
+        padding: 12px;
+        gap: 12px;
+        flex-direction: row;
+    }
+
+    .step-number {
+        width: 32px;
+        height: 32px;
+        min-width: 32px;
+        font-size: 14px;
+    }
+
+    .step-content h3 {
+        font-size: 1rem;
+        margin-bottom: 8px;
+    }
+
+    .step-content p {
+        font-size: 12px;
+        margin: 6px 0;
+    }
+
+    .step-image {
+        margin-top: 10px;
+    }
+
+    .step-note {
+        font-size: 11px !important;
+    }
+}
+
+/* Pantallas muy pequeñas */
+@media (max-width: 360px) {
+    .file-uploader {
+        padding: 8px;
+    }
+
+    .sample-data-section {
+        padding: 10px;
+    }
+
+    .tutorial-section {
+        padding: 12px;
+    }
+
+    .tutorial-step {
+        padding: 10px;
+        gap: 10px;
+    }
+
+    .step-number {
+        width: 30px;
+        height: 30px;
+        min-width: 30px;
+        font-size: 13px;
+    }
 }
