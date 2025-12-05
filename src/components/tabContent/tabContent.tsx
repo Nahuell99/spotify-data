@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { formatTime } from "../../functions";
 import './tabContent.css';
 
 interface TabContentProps {
@@ -12,6 +13,10 @@ interface TabContentProps {
 const TabContent: React.FC<TabContentProps> = ({ data, groupingKey, fromDate, toDate }) => {
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const [chartWidth, setChartWidth] = useState<number | string>('100%');
+  const [sortBy, setSortBy] = useState<'count' | 'totalMs'>('totalMs');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   useEffect(() => {
     const updateWidth = () => {
@@ -53,13 +58,46 @@ const TabContent: React.FC<TabContentProps> = ({ data, groupingKey, fromDate, to
     return acc;
   }, {});
 
-  const chartData = Object.entries(groupedData).map(([name, values]) => ({
+  // Convertir a array y ordenar
+  const allTableData = Object.entries(groupedData).map(([name, values]) => ({
     name,
     count: values.count,
+    totalMs: values.totalMs,
     totalHours: (values.totalMs / (1000 * 60 * 60)).toFixed(2),
-  }))
-    .sort((a, b) => Number(b.totalHours) - Number(a.totalHours))
-    .slice(0, 10);
+  }));
+
+  // Ordenar según el criterio seleccionado
+  const sortedData = [...allTableData].sort((a, b) => {
+    const aValue = sortBy === 'count' ? a.count : a.totalMs;
+    const bValue = sortBy === 'count' ? b.count : b.totalMs;
+    return sortOrder === 'desc' ? bValue - aValue : aValue - bValue;
+  });
+
+  // Datos para el gráfico (top 10)
+  const chartData = sortedData.slice(0, 10);
+
+  // Datos paginados para la tabla
+  const totalPages = Math.ceil(sortedData.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedData = sortedData.slice(startIndex, endIndex);
+
+  // Resetear a página 1 cuando cambia el ordenamiento
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [sortBy, sortOrder]);
+
+  // Manejar clic en columna para ordenar
+  const handleSortClick = (column: 'count' | 'totalMs') => {
+    if (sortBy === column) {
+      // Si ya está ordenando por esta columna, cambiar el orden
+      setSortOrder(sortOrder === 'desc' ? 'asc' : 'desc');
+    } else {
+      // Si es una columna diferente, ordenar por ella en descendente
+      setSortBy(column);
+      setSortOrder('desc');
+    }
+  };
 
   return (
     <div className="tab-content-wrapper">
@@ -82,21 +120,66 @@ const TabContent: React.FC<TabContentProps> = ({ data, groupingKey, fromDate, to
         <table className="tab-data-table">
           <thead>
             <tr>
+              <th>#</th>
               <th>Nombre</th>
-              <th>Cantidad Única</th>
-              <th>Acumulado (horas)</th>
+              <th className="sortable-header" onClick={() => handleSortClick('count')}>
+                <span>
+                  Cantidad Única
+                  <span className="tooltip-wrapper" onClick={(e) => e.stopPropagation()}>
+                    <span className="tooltip-icon">?</span>
+                    <span className="tooltip-text">Cantidad de reproducciones únicas completas o skipeadas</span>
+                  </span>
+                </span>
+                {sortBy === 'count' && (
+                  <span className="sort-arrow">{sortOrder === 'desc' ? '↓' : '↑'}</span>
+                )}
+              </th>
+              <th className="sortable-header" onClick={() => handleSortClick('totalMs')}>
+                <span>
+                  Tiempo de reproducción acumulado
+                  <span className="tooltip-wrapper" onClick={(e) => e.stopPropagation()}>
+                    <span className="tooltip-icon">?</span>
+                    <span className="tooltip-text">Acumulado de tiempo neto por cada canción reproducida, completa o skipeada</span>
+                  </span>
+                </span>
+                {sortBy === 'totalMs' && (
+                  <span className="sort-arrow">{sortOrder === 'desc' ? '↓' : '↑'}</span>
+                )}
+              </th>
             </tr>
           </thead>
           <tbody>
-            {chartData.map((row) => (
+            {paginatedData.map((row, index) => (
               <tr key={row.name}>
+                <td>{startIndex + index + 1}</td>
                 <td>{row.name}</td>
                 <td>{row.count}</td>
-                <td>{row.totalHours}</td>
+                <td>{formatTime(row.totalMs)}</td>
               </tr>
             ))}
           </tbody>
         </table>
+        {totalPages > 1 && (
+          <div className="tab-pagination">
+            <button
+              onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+              disabled={currentPage === 1}
+              className="tab-pagination-button"
+            >
+              Anterior
+            </button>
+            <span className="tab-pagination-info">
+              Página {currentPage} de {totalPages} ({sortedData.length} resultados)
+            </span>
+            <button
+              onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+              disabled={currentPage === totalPages}
+              className="tab-pagination-button"
+            >
+              Siguiente
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

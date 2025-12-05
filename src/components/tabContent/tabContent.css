@@ -134,3 +134,138 @@
     font-weight: 500;
     color: #FFF;
 }
+
+/* ============================================
+   HEADERS ORDENABLES
+   ============================================ */
+.sortable-header {
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+}
+
+.sortable-header:hover {
+    background-color: #333 !important;
+}
+
+.sortable-header > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.sort-arrow {
+    display: inline-block;
+    margin-left: 4px;
+    color: #1db954;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* ============================================
+   TOOLTIP PERSONALIZADO
+   ============================================ */
+.tooltip-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-left: 6px;
+    pointer-events: auto;
+}
+
+.tooltip-icon {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+    text-align: center;
+    background-color: #1db954;
+    color: #000;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: help;
+    vertical-align: middle;
+    position: relative;
+}
+
+.tooltip-icon:hover {
+    background-color: #1ed760;
+}
+
+.tooltip-text {
+    visibility: hidden;
+    opacity: 0;
+    background-color: #333;
+    color: #FFF;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 12px;
+    position: absolute;
+    z-index: 1000;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    font-weight: normal;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: opacity 0.3s, visibility 0.3s;
+    pointer-events: none;
+    max-width: 250px;
+    white-space: normal;
+    width: max-content;
+}
+
+.tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+
+.tooltip-wrapper:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* ============================================
+   PAGINACIÓN
+   ============================================ */
+.tab-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #444;
+}
+
+.tab-pagination-button {
+    background-color: #2a2a2a;
+    color: #FFF;
+    border: 1px solid #444;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tab-pagination-button:hover:not(:disabled) {
+    background-color: #1db954;
+    border-color: #1db954;
+}
+
+.tab-pagination-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.tab-pagination-info {
+    color: #A1A1AA;
+    font-size: 14px;
+}

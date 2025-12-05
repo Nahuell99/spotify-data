@@ -4,7 +4,7 @@ import { formatTime, formatNumber, formatPercentage } from '../../functions';
 import Tabs from '../tabContent/tabContent';
 import HoursDistribution from '../HoursDistribution/HoursDistribution';
 import PlatformDistribution from '../PlatformDistribution/PlatformDistribution';
-import { FaClock, FaMusic, FaUser, FaFolder, FaCalendarDay, FaForward, FaCheckCircle, FaStopwatch } from 'react-icons/fa';
+import { FaClock, FaMusic, FaUser, FaFolder, FaCalendarDay, FaForward, FaCheckCircle, FaThumbsDown } from 'react-icons/fa';
 import './KpiReport.css'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -86,8 +86,35 @@ const KpiReport: React.FC<{ files: UploadedFile[] }> = ({ files }) => {
     const sessionsWithoutSkip = filteredData.filter((entry: any) => entry.skipped === false).length;
     const percentageWithoutSkip = totalSessions > 0 ? (sessionsWithoutSkip / totalSessions) * 100 : 0;
 
-    // Promedio de duración por track reproducido
-    const averageDurationPerTrack = totalSessions > 0 ? totalTime / totalSessions : 0;
+    // Canción más odiada: skipped=true y ms_played <= 10000 (10 segundos)
+    const hatedSongs = filteredData.filter((entry: any) => 
+      entry.skipped === true && (entry.ms_played || 0) <= 10000
+    );
+
+    // Agrupar por track_name + artist_name y contar ocurrencias
+    const hatedSongsCount: Record<string, { track: string; artist: string; count: number }> = {};
+    hatedSongs.forEach((entry: any) => {
+      const trackName = entry.master_metadata_track_name || 'Desconocido';
+      const artistName = entry.master_metadata_album_artist_name || 'Desconocido';
+      const key = `${trackName}|||${artistName}`;
+      
+      if (!hatedSongsCount[key]) {
+        hatedSongsCount[key] = {
+          track: trackName,
+          artist: artistName,
+          count: 0
+        };
+      }
+      hatedSongsCount[key].count += 1;
+    });
+
+    // Encontrar la canción con más ocurrencias
+    let mostHatedSong = { track: 'N/A', artist: 'N/A', count: 0 };
+    Object.values(hatedSongsCount).forEach((song) => {
+      if (song.count > mostHatedSong.count) {
+        mostHatedSong = song;
+      }
+    });
 
     return {
       totalTime,
@@ -97,11 +124,11 @@ const KpiReport: React.FC<{ files: UploadedFile[] }> = ({ files }) => {
       averageTimePerDay,
       percentageWithSkip,
       percentageWithoutSkip,
-      averageDurationPerTrack,
+      mostHatedSong,
     };
   };
 
-  const { totalTime, uniqueTracks, uniqueArtists, uniqueAlbums, averageTimePerDay, percentageWithSkip, percentageWithoutSkip, averageDurationPerTrack } = calculateKPIs();
+  const { totalTime, uniqueTracks, uniqueArtists, uniqueAlbums, averageTimePerDay, percentageWithSkip, percentageWithoutSkip, mostHatedSong } = calculateKPIs();
 
   return (
     <div className='main-container'>
@@ -222,11 +249,15 @@ const KpiReport: React.FC<{ files: UploadedFile[] }> = ({ files }) => {
           <div className='kpi-card'>
             <div className='kpi-card-header'>
               <div className='kpi-card-icon'>
-                <FaStopwatch />
+                <FaThumbsDown />
               </div>
-              <h3 className='kpi-card-title'>Promedio de duración por track reproducido</h3>
+              <h3 className='kpi-card-title'>Canción más odiada</h3>
             </div>
-            <p className='kpi-card-value'>{formatTime(averageDurationPerTrack)}</p>
+            <p className='kpi-card-value'>
+              {mostHatedSong.count > 0 
+                ? `${mostHatedSong.track} - ${mostHatedSong.artist}` 
+                : 'N/A'}
+            </p>
           </div>
         </section>
 
