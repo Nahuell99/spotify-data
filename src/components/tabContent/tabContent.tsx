@@ -27,11 +27,18 @@ const TabContent: React.FC<TabContentProps> = ({ data, groupingKey, fromDate, to
     return isAfterFrom && isBeforeTo;
   });
 
+  // Determinar si mostrar columna de artista
+  const showArtistColumn = groupingKey !== "master_metadata_album_artist_name";
+
   // Agrupar y calcular datos
-  const groupedData = filteredData.reduce((acc: Record<string, { count: number; totalMs: number }>, entry: any) => {
+  const groupedData = filteredData.reduce((acc: Record<string, { count: number; totalMs: number; artist?: string }>, entry: any) => {
     const key = entry[groupingKey] || "Desconocido";
     if (!acc[key]) {
-      acc[key] = { count: 0, totalMs: 0 };
+      acc[key] = { 
+        count: 0, 
+        totalMs: 0,
+        artist: showArtistColumn ? (entry.master_metadata_album_artist_name || "Desconocido") : undefined
+      };
     }
     acc[key].count += 1;
     acc[key].totalMs += entry.ms_played || 0;
@@ -43,6 +50,7 @@ const TabContent: React.FC<TabContentProps> = ({ data, groupingKey, fromDate, to
     name,
     count: values.count,
     totalMs: values.totalMs,
+    artist: values.artist,
   }));
 
   // Ordenar según el criterio seleccionado
@@ -83,7 +91,8 @@ const TabContent: React.FC<TabContentProps> = ({ data, groupingKey, fromDate, to
           <thead>
             <tr>
               <th>#</th>
-              <th>Nombre</th>
+              <th>Canción</th>
+              {showArtistColumn && <th>Artista</th>}
               <th className="sortable-header" onClick={() => handleSortClick('count')}>
                 <span>
                   Cantidad Única
@@ -98,7 +107,7 @@ const TabContent: React.FC<TabContentProps> = ({ data, groupingKey, fromDate, to
               </th>
               <th className="sortable-header" onClick={() => handleSortClick('totalMs')}>
                 <span>
-                  Tiempo de reproducción acumulado
+                  Tiempo de reproducción
                   <span className="tooltip-wrapper" onClick={(e) => e.stopPropagation()}>
                     <span className="tooltip-icon">?</span>
                     <span className="tooltip-text">Acumulado de tiempo neto por cada canción reproducida, completa o skipeada</span>
@@ -114,7 +123,14 @@ const TabContent: React.FC<TabContentProps> = ({ data, groupingKey, fromDate, to
             {paginatedData.map((row, index) => (
               <tr key={row.name}>
                 <td>{startIndex + index + 1}</td>
-                <td>{row.name}</td>
+                <td className="text-cell-with-tooltip" title={row.name}>
+                  {row.name}
+                </td>
+                {showArtistColumn && (
+                  <td className="text-cell-with-tooltip" title={row.artist}>
+                    {row.artist}
+                  </td>
+                )}
                 <td>{row.count}</td>
                 <td>{formatTime(row.totalMs)}</td>
               </tr>

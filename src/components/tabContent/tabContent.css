@@ -118,6 +118,18 @@
 }
 
 /* ============================================
+   CELDAS DE TEXTO CON ELLIPSIS Y TOOLTIP
+   ============================================ */
+.tab-data-table td.text-cell-with-tooltip {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    position: relative;
+    cursor: help;
+}
+
+/* ============================================
    HEADERS ORDENABLES
    ============================================ */
 .sortable-header {
