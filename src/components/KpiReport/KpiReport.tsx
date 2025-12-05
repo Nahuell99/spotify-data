@@ -251,7 +251,13 @@ const KpiReport: React.FC<{ files: UploadedFile[] }> = ({ files }) => {
               <div className='kpi-card-icon'>
                 <FaThumbsDown />
               </div>
-              <h3 className='kpi-card-title'>Canción más odiada</h3>
+              <h3 className='kpi-card-title'>
+                Canción más odiada
+                <span className="tooltip-wrapper">
+                  <span className="tooltip-icon">?</span>
+                  <span className="tooltip-text">Canción más veces skipeada antes de los 10 segundos de iniciada</span>
+                </span>
+              </h3>
             </div>
             <p className='kpi-card-value'>
               {mostHatedSong.count > 0 

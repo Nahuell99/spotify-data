@@ -151,7 +151,7 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -169,6 +169,8 @@
     align-items: flex-start;
     gap: 10px;
     margin-bottom: 12px;
+    overflow: visible;
+    position: relative;
 }
 
 .kpi-card-icon {
@@ -199,6 +201,82 @@
     text-align: left;
     line-height: 1.2;
     letter-spacing: -0.5px;
+}
+
+/* ============================================
+   TOOLTIP PERSONALIZADO PARA CARDS
+   ============================================ */
+.kpi-card-title {
+    position: relative;
+    overflow: visible;
+}
+
+.tooltip-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-left: 6px;
+    pointer-events: auto;
+    z-index: 1;
+}
+
+.tooltip-icon {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+    text-align: center;
+    background-color: #1db954;
+    color: #000;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: help;
+    vertical-align: middle;
+    position: relative;
+}
+
+.tooltip-icon:hover {
+    background-color: #1ed760;
+}
+
+.tooltip-text {
+    visibility: hidden;
+    opacity: 0;
+    background-color: #333;
+    color: #FFF;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 12px;
+    position: absolute;
+    z-index: 10000;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    font-weight: normal;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: opacity 0.3s, visibility 0.3s;
+    pointer-events: none;
+    max-width: 250px;
+    white-space: normal;
+    width: max-content;
+    margin-bottom: 5px;
+}
+
+.tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+
+.tooltip-wrapper:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
 }
 
 /* ============================================

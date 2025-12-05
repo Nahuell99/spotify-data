@@ -1,5 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import React, { useState, useEffect } from "react";
 import { formatTime } from "../../functions";
 import './tabContent.css';
 
@@ -11,29 +10,10 @@ interface TabContentProps {
 }
 
 const TabContent: React.FC<TabContentProps> = ({ data, groupingKey, fromDate, toDate }) => {
-  const chartContainerRef = useRef<HTMLDivElement>(null);
-  const [chartWidth, setChartWidth] = useState<number | string>('100%');
   const [sortBy, setSortBy] = useState<'count' | 'totalMs'>('totalMs');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-
-  useEffect(() => {
-    const updateWidth = () => {
-      if (chartContainerRef.current) {
-        const width = chartContainerRef.current.offsetWidth;
-        setChartWidth(width);
-      }
-    };
-
-    const timer = setTimeout(updateWidth, 100);
-    updateWidth();
-    window.addEventListener('resize', updateWidth);
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener('resize', updateWidth);
-    };
-  }, []);
 
   // Filtrar datos por fecha
   const filteredData = data.filter((entry) => {
@@ -63,7 +43,6 @@ const TabContent: React.FC<TabContentProps> = ({ data, groupingKey, fromDate, to
     name,
     count: values.count,
     totalMs: values.totalMs,
-    totalHours: (values.totalMs / (1000 * 60 * 60)).toFixed(2),
   }));
 
   // Ordenar según el criterio seleccionado
@@ -72,9 +51,6 @@ const TabContent: React.FC<TabContentProps> = ({ data, groupingKey, fromDate, to
     const bValue = sortBy === 'count' ? b.count : b.totalMs;
     return sortOrder === 'desc' ? bValue - aValue : aValue - bValue;
   });
-
-  // Datos para el gráfico (top 10)
-  const chartData = sortedData.slice(0, 10);
 
   // Datos paginados para la tabla
   const totalPages = Math.ceil(sortedData.length / itemsPerPage);
@@ -101,20 +77,6 @@ const TabContent: React.FC<TabContentProps> = ({ data, groupingKey, fromDate, to
 
   return (
     <div className="tab-content-wrapper">
-      {/* Gráfico de barras verticales */}
-      <div className="tab-chart-container" ref={chartContainerRef}>
-        <ResponsiveContainer width={chartWidth} height={350}>
-          <BarChart data={chartData} margin={{ top: 20, right: 10, bottom: 40, left: 10 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#A1A1AA" />
-            <XAxis dataKey="name" stroke="#FFF" />
-            <YAxis stroke="#FFF" />
-            <Tooltip contentStyle={{ backgroundColor: "#333", color: "#FFF" }} />
-            <Legend wrapperStyle={{ color: "#FFF" }} />
-            <Bar dataKey="totalHours" fill="#8884d8" name="Horas acumuladas" />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
-
       {/* Tabla de detalles */}
       <div className="tab-table-container">
         <table className="tab-data-table">

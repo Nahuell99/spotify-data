@@ -53,44 +53,22 @@
    CONTENEDOR DEL CONTENIDO DE LA PESTAÑA
    ============================================ */
 .tab-content-wrapper {
-    display: flex;
-    gap: 20px;
     width: 100%;
     box-sizing: border-box;
+    overflow: visible;
 }
 
 /* ============================================
-   CONTENEDOR DEL GRÁFICO DE BARRAS (Izquierda)
-   ============================================ */
-.tab-chart-container {
-    flex: 1;
-    padding: 20px;
-    background-color: #1f1f1f;
-    border-radius: 8px;
-    border: 2px solid #e7ebda;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 350px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.tab-chart-container > div {
-    width: 100% !important;
-    max-width: 100% !important;
-}
-
-/* ============================================
-   CONTENEDOR DE LA TABLA (Derecha)
+   CONTENEDOR DE LA TABLA
    ============================================ */
 .tab-table-container {
-    flex: 1;
+    width: 100%;
     padding: 20px;
     background-color: #1f1f1f;
     border-radius: 8px;
     border: 2px solid #e7ebda;
-    overflow-x: auto;
+    overflow: visible;
+    box-sizing: border-box;
 }
 
 /* ============================================
@@ -100,6 +78,8 @@
     width: 100%;
     color: #FFF;
     border-collapse: collapse;
+    table-layout: auto;
+    overflow: visible;
 }
 
 .tab-data-table th,
@@ -116,6 +96,8 @@
 .tab-data-table thead th {
     font-weight: 600;
     color: #1db954;
+    overflow: visible;
+    position: relative;
 }
 
 .tab-data-table tbody tr {
@@ -170,6 +152,7 @@
     display: inline-block;
     margin-left: 6px;
     pointer-events: auto;
+    z-index: 1;
 }
 
 .tooltip-icon {
@@ -201,7 +184,7 @@
     border-radius: 6px;
     padding: 8px 12px;
     position: absolute;
-    z-index: 1000;
+    z-index: 10000;
     bottom: 125%;
     left: 50%;
     transform: translateX(-50%);
@@ -213,6 +196,7 @@
     max-width: 250px;
     white-space: normal;
     width: max-content;
+    margin-bottom: 5px;
 }
 
 .tooltip-text::after {
@@ -229,6 +213,15 @@
 .tooltip-wrapper:hover .tooltip-text {
     visibility: visible;
     opacity: 1;
+}
+
+/* Asegurar que los tooltips no se corten */
+.tab-data-table thead th {
+    overflow: visible;
+}
+
+.tab-data-table {
+    overflow: visible;
 }
 
 /* ============================================
