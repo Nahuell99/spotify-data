@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { formatTime, formatNumber, formatPercentage } from '../../functions';
+import { formatTime, formatNumber } from '../../functions';
 import Tabs from '../tabContent/tabContent';
 import HoursDistribution from '../HoursDistribution/HoursDistribution';
 import PlatformDistribution from '../PlatformDistribution/PlatformDistribution';
@@ -78,15 +78,6 @@ const KpiReport: React.FC<{ files: UploadedFile[] }> = ({ files }) => {
     });
     const averageTimePerDay = uniqueDays.size > 0 ? totalTime / uniqueDays.size : 0;
 
-    // Porcentaje de sesiones con "skip"
-    const totalSessions = filteredData.length;
-    const sessionsWithSkip = filteredData.filter((entry: any) => entry.skipped === true).length;
-    const percentageWithSkip = totalSessions > 0 ? (sessionsWithSkip / totalSessions) * 100 : 0;
-
-    // Porcentaje de sesiones SIN "skip" (Escuchadas completas)
-    const sessionsWithoutSkip = filteredData.filter((entry: any) => entry.skipped === false).length;
-    const percentageWithoutSkip = totalSessions > 0 ? (sessionsWithoutSkip / totalSessions) * 100 : 0;
-
     // Canción más odiada: skipped=true y ms_played <= 10000 (10 segundos)
     const hatedSongs = filteredData.filter((entry: any) => 
       entry.skipped === true && (entry.ms_played || 0) <= 10000
@@ -123,13 +114,11 @@ const KpiReport: React.FC<{ files: UploadedFile[] }> = ({ files }) => {
       uniqueArtists: uniqueArtists.size,
       uniqueAlbums: uniqueAlbums.size,
       averageTimePerDay,
-      percentageWithSkip,
-      percentageWithoutSkip,
       mostHatedSong,
     };
   };
 
-  const { totalTime, uniqueTracks, uniqueArtists, uniqueAlbums, averageTimePerDay, percentageWithSkip, percentageWithoutSkip, mostHatedSong } = calculateKPIs();
+  const { totalTime, uniqueTracks, uniqueArtists, uniqueAlbums, averageTimePerDay, mostHatedSong } = calculateKPIs();
 
   return (
     <div className='main-container'>
