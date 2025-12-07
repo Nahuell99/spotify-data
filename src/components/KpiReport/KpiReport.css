@@ -86,6 +86,22 @@
     flex-wrap: wrap;
 }
 
+.date-input-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex: 1;
+    min-width: 140px;
+    max-width: 200px;
+}
+
+.date-input-label {
+    color: #e7ebda;
+    font-size: clamp(12px, 3vw, 14px);
+    font-weight: 500;
+    text-align: left;
+}
+
 .date-input {
     padding: 10px;
     border-radius: 5px;
@@ -93,15 +109,28 @@
     background-color: #1f1f1f;
     color: #ffffff;
     font-size: clamp(12px, 3vw, 14px);
-    flex: 1;
-    min-width: 140px;
-    max-width: 200px;
+    width: 100%;
     box-sizing: border-box;
 }
 
 .date-input:focus {
     outline: none;
     border-color: #1db954;
+}
+
+.date-shortcuts-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.date-shortcuts-label {
+    color: #e7ebda;
+    font-size: clamp(13px, 3vw, 15px);
+    font-weight: 500;
+    margin: 0;
+    text-align: center;
 }
 
 .date-shortcuts {
@@ -322,6 +351,14 @@
 }
 
 /* ============================================
+   SECCIÓN 6: GRÁFICOS ADICIONALES
+   ============================================ */
+.additional-charts-section {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* ============================================
    MEDIA QUERIES - RESPONSIVE DESIGN
    ============================================ */
 
@@ -355,9 +392,12 @@
         margin-bottom: 15px;
     }
 
-    .date-input {
+    .date-input-wrapper {
         min-width: 120px;
         max-width: 180px;
+    }
+
+    .date-input {
         padding: 8px;
     }
 
@@ -419,11 +459,19 @@
         margin-bottom: 12px;
     }
 
-    .date-input {
+    .date-input-wrapper {
         width: 100%;
         min-width: 100%;
         max-width: 100%;
+    }
+
+    .date-input {
+        width: 100%;
         padding: 10px;
+    }
+
+    .date-shortcuts-label {
+        font-size: 13px;
     }
 
     .date-shortcuts {

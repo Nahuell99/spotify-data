@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from "react";
 import { formatTime } from "../../functions";
 import './tabContent.css';
@@ -29,19 +30,50 @@ const TabContent: React.FC<TabContentProps> = ({ data, groupingKey, fromDate, to
 
   // Determinar si mostrar columna de artista
   const showArtistColumn = groupingKey !== "master_metadata_album_artist_name";
+  
+  // Determinar si mostrar columna de "Escuchar canción" (solo para Top canciones)
+  const showListenColumn = groupingKey === "master_metadata_track_name";
+
+  // Obtener el título de la columna principal según el groupingKey
+  const getColumnTitle = () => {
+    switch (groupingKey) {
+      case "master_metadata_track_name":
+        return "Canción";
+      case "master_metadata_album_album_name":
+        return "Álbum";
+      case "master_metadata_album_artist_name":
+        return "Artista";
+      default:
+        return "Canción";
+    }
+  };
+
+  // Función para convertir spotify_track_uri a URL de Spotify
+  const convertSpotifyUriToUrl = (uri: string | undefined): string | null => {
+    if (!uri || !uri.startsWith("spotify:track:")) {
+      return null;
+    }
+    const trackId = uri.replace("spotify:track:", "");
+    return `https://open.spotify.com/track/${trackId}`;
+  };
 
   // Agrupar y calcular datos
-  const groupedData = filteredData.reduce((acc: Record<string, { count: number; totalMs: number; artist?: string }>, entry: any) => {
+  const groupedData = filteredData.reduce((acc: Record<string, { count: number; totalMs: number; artist?: string; spotifyUri?: string }>, entry: any) => {
     const key = entry[groupingKey] || "Desconocido";
     if (!acc[key]) {
       acc[key] = { 
         count: 0, 
         totalMs: 0,
-        artist: showArtistColumn ? (entry.master_metadata_album_artist_name || "Desconocido") : undefined
+        artist: showArtistColumn ? (entry.master_metadata_album_artist_name || "Desconocido") : undefined,
+        spotifyUri: showListenColumn ? (entry.spotify_track_uri || undefined) : undefined
       };
     }
     acc[key].count += 1;
     acc[key].totalMs += entry.ms_played || 0;
+    // Si no tenemos URI aún y esta entrada tiene uno, guardarlo
+    if (showListenColumn && !acc[key].spotifyUri && entry.spotify_track_uri) {
+      acc[key].spotifyUri = entry.spotify_track_uri;
+    }
     return acc;
   }, {});
 
@@ -51,6 +83,7 @@ const TabContent: React.FC<TabContentProps> = ({ data, groupingKey, fromDate, to
     count: values.count,
     totalMs: values.totalMs,
     artist: values.artist,
+    spotifyUrl: convertSpotifyUriToUrl(values.spotifyUri),
   }));
 
   // Ordenar según el criterio seleccionado
@@ -91,7 +124,7 @@ const TabContent: React.FC<TabContentProps> = ({ data, groupingKey, fromDate, to
           <thead>
             <tr>
               <th>#</th>
-              <th>Canción</th>
+              <th>{getColumnTitle()}</th>
               {showArtistColumn && <th>Artista</th>}
               <th className="sortable-header" onClick={() => handleSortClick('count')}>
                 <span>
@@ -117,6 +150,7 @@ const TabContent: React.FC<TabContentProps> = ({ data, groupingKey, fromDate, to
                   <span className="sort-arrow">{sortOrder === 'desc' ? '↓' : '↑'}</span>
                 )}
               </th>
+              {showListenColumn && <th>Escuchar canción</th>}
             </tr>
           </thead>
           <tbody>
@@ -133,6 +167,23 @@ const TabContent: React.FC<TabContentProps> = ({ data, groupingKey, fromDate, to
                 )}
                 <td>{row.count}</td>
                 <td>{formatTime(row.totalMs)}</td>
+                {showListenColumn && (
+                  <td>
+                    {row.spotifyUrl ? (
+                      <a 
+                        href={row.spotifyUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="spotify-link"
+                        title="Escuchar en Spotify"
+                      >
+                        🔊
+                      </a>
+                    ) : (
+                      <span className="no-link">-</span>
+                    )}
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>

@@ -73,8 +73,10 @@
     border: 2px solid #e7ebda;
     overflow-x: auto;
     overflow-y: visible;
+    overflow: visible;
     box-sizing: border-box;
     -webkit-overflow-scrolling: touch;
+    position: relative;
 }
 
 /* ============================================
@@ -108,6 +110,7 @@
     position: relative;
     font-size: clamp(12px, 3vw, 14px);
     white-space: nowrap;
+    z-index: 1;
 }
 
 .tab-data-table tbody tr {
@@ -187,7 +190,7 @@
     display: inline-block;
     margin-left: 6px;
     pointer-events: auto;
-    z-index: 1;
+    z-index: 1000;
 }
 
 .tooltip-icon {
@@ -219,13 +222,13 @@
     border-radius: 6px;
     padding: 8px 12px;
     position: absolute;
-    z-index: 10000;
+    z-index: 10001;
     bottom: 125%;
     left: 50%;
     transform: translateX(-50%);
     font-size: 12px;
     font-weight: normal;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
     transition: opacity 0.3s, visibility 0.3s;
     pointer-events: none;
     max-width: 250px;
@@ -257,6 +260,11 @@
 
 .tab-data-table {
     overflow: visible;
+}
+
+.tab-content-wrapper {
+    overflow: visible;
+    position: relative;
 }
 
 /* ============================================
@@ -301,6 +309,27 @@
     font-size: clamp(11px, 2.5vw, 14px);
     text-align: center;
     word-wrap: break-word;
+}
+
+/* ============================================
+   ENLACE DE SPOTIFY
+   ============================================ */
+.spotify-link {
+    color: #1db954;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+    display: inline-block;
+}
+
+.spotify-link:hover {
+    color: #1ed760;
+    text-decoration: underline;
+}
+
+.no-link {
+    color: #666;
+    font-style: italic;
 }
 
 /* ============================================

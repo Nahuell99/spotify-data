@@ -62,6 +62,10 @@ const HoursDistribution: React.FC<HoursDistributionProps> = ({
     return (
         <div className="hours-distribution-container">
             <h3 className="hours-distribution-title">Distribución por Hora</h3>
+            <p className="hours-distribution-description">
+                Este gráfico muestra en qué rango del día sueles escuchar más música, basado en la acumulación de tiempo neto de reproducción. 
+                Cada barra representa una hora del día (00:00 a 23:00) y su altura indica el total de horas acumuladas escuchadas en ese horario.
+            </p>
             <div className="hours-distribution-chart-wrapper">
                 <ResponsiveContainer width="100%" height={350}>
                     <BarChart

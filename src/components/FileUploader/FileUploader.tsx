@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './FileUploader.css';
 
 interface UploadedFile {
@@ -15,6 +15,7 @@ interface FileUploaderProps {
 const FileUploader: React.FC<FileUploaderProps> = ({ setFiles }) => {
   const [files, setLocalFiles] = useState<UploadedFile[]>([]);
   const [isLoadingSamples, setIsLoadingSamples] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const onDrop = (acceptedFiles: File[]) => {
     const promises = acceptedFiles.map((file) => {
@@ -31,13 +32,15 @@ const FileUploader: React.FC<FileUploaderProps> = ({ setFiles }) => {
     });
   };
 
-  const loadSampleData = async () => {
+  const loadDemoData = async () => {
+    // Nombres de archivos que coinciden con los que están en public/data
     const sampleFiles = [
       'Streaming_History_Audio_2016-2018_0.json',
-      'Streaming_History_Audio_2018-2020_1.json',
-      'Streaming_History_Audio_2020-2022_2.json',
-      'Streaming_History_Audio_2022-2024_3.json',
-      'Streaming_History_Audio_2024_4.json'
+      'Streaming_History_Audio_2018-2019_1.json',
+      'Streaming_History_Audio_2019-2021_2.json',
+      'Streaming_History_Audio_2021-2023_3.json',
+      'Streaming_History_Audio_2023-2025_4.json',
+      'Streaming_History_Audio_2025_5.json'
     ];
 
     setIsLoadingSamples(true);
@@ -45,7 +48,6 @@ const FileUploader: React.FC<FileUploaderProps> = ({ setFiles }) => {
       const baseUrl = import.meta.env.BASE_URL || '/';
       const promises = sampleFiles.map(async (filename) => {
         // Los archivos en public/ se sirven desde la raíz considerando el base URL
-        // Si baseUrl es '/', usar /data/, si no usar baseUrl/data/
         let url: string;
         if (baseUrl === '/') {
           url = `/data/${filename}`;
@@ -56,7 +58,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({ setFiles }) => {
         }
         
         url = url.replace(/\/+/g, '/');
-        console.log(`Intentando cargar desde: ${url} (BASE_URL: "${baseUrl}")`);
+        console.log(`Cargando demo: ${url}`);
         const response = await fetch(url);
         if (!response.ok) {
           throw new Error(`Error al cargar ${filename}: ${response.status} ${response.statusText}`);
@@ -71,10 +73,13 @@ const FileUploader: React.FC<FileUploaderProps> = ({ setFiles }) => {
       const uploadedFiles = await Promise.all(promises);
       setLocalFiles(uploadedFiles);
       setFiles(uploadedFiles);
-      console.log("Datos de muestra cargados:", uploadedFiles);
+      console.log("Demo cargada correctamente:", uploadedFiles.length, "archivos");
+      
+      // Navegar automáticamente al informe
+      navigate('/kpi-report');
     } catch (error) {
-      console.error("Error al cargar datos de muestra:", error);
-      alert("Error al cargar los datos de muestra. Asegúrate de que los archivos estén en la carpeta public/data");
+      console.error("Error al cargar la demo:", error);
+      alert("Error al cargar la demo. Intenta de nuevo.");
     } finally {
       setIsLoadingSamples(false);
     }
@@ -89,17 +94,17 @@ const FileUploader: React.FC<FileUploaderProps> = ({ setFiles }) => {
     <div className="file-uploader">
       <h1>Subí tus datos json de Spotify</h1>
       
-      {/* Botón para cargar datos de muestra */}
+      {/* Botón para ver demo */}
       <div className="sample-data-section">
         <button 
           className="sample-data-button" 
-          onClick={loadSampleData}
+          onClick={loadDemoData}
           disabled={isLoadingSamples}
         >
-          {isLoadingSamples ? 'Cargando...' : 'Cargar datos de muestra'}
+          {isLoadingSamples ? 'Cargando demo...' : 'Ver demo del informe'}
         </button>
         <p className="sample-data-description">
-          Carga archivos de ejemplo para ver el informe sin tus propios datos
+          Mira un ejemplo del informe con datos reales de Spotify
         </p>
       </div>
 

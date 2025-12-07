@@ -4,7 +4,8 @@ import { formatTime, formatNumber, formatPercentage } from '../../functions';
 import Tabs from '../tabContent/tabContent';
 import HoursDistribution from '../HoursDistribution/HoursDistribution';
 import PlatformDistribution from '../PlatformDistribution/PlatformDistribution';
-import { FaClock, FaMusic, FaUser, FaFolder, FaCalendarDay, FaForward, FaCheckCircle, FaThumbsDown } from 'react-icons/fa';
+import AdditionalCharts from '../AdditionalCharts/AdditionalCharts';
+import { FaClock, FaMusic, FaUser, FaFolder, FaCalendarDay, FaThumbsDown } from 'react-icons/fa';
 import './KpiReport.css'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -144,36 +145,49 @@ const KpiReport: React.FC<{ files: UploadedFile[] }> = ({ files }) => {
         {/* Sección 1: Filtros de fechas */}
         <section className='date-filter-section'>
           <div className='date-inputs'>
-            <input
-              className='date-input date-input-from'
-              type="date"
-              value={dateFrom}
-              onChange={(e) => setDateFrom(e.target.value)}
-            />
-            <input
-              className='date-input date-input-to'
-              type="date"
-              value={dateTo}
-              onChange={(e) => setDateTo(e.target.value)}
-            />
+            <div className='date-input-wrapper'>
+              <label htmlFor='date-from' className='date-input-label'>Fecha desde</label>
+              <input
+                id='date-from'
+                className='date-input date-input-from'
+                type="date"
+                value={dateFrom}
+                onChange={(e) => setDateFrom(e.target.value)}
+              />
+            </div>
+            <div className='date-input-wrapper'>
+              <label htmlFor='date-to' className='date-input-label'>Fecha hasta</label>
+              <input
+                id='date-to'
+                className='date-input date-input-to'
+                type="date"
+                value={dateTo}
+                onChange={(e) => setDateTo(e.target.value)}
+              />
+            </div>
           </div>
 
-          <div className='date-shortcuts'>
-            {availableYears.map((year) => (
+          <div className='date-shortcuts-section'>
+            <p className='date-shortcuts-label'>O selecciona un año completo:</p>
+            <div className='date-shortcuts'>
+              {availableYears.map((year) => (
+                <button 
+                  className='shortcut-button shortcut-button-year' 
+                  key={year} 
+                  onClick={() => handleYearButtonClick(year)}
+                  title={`Ver estadísticas del año ${year}`}
+                >
+                  {year}
+                </button>
+              ))}
               <button 
-                className='shortcut-button shortcut-button-year' 
-                key={year} 
-                onClick={() => handleYearButtonClick(year)}
+                className='shortcut-button shortcut-button-total' 
+                onClick={handleTotalButtonClick}
+                title='Ver todas las estadísticas sin filtrar por fecha'
               >
-                {year}
+                TOTAL
               </button>
-            ))}
-            <button 
-              className='shortcut-button shortcut-button-total' 
-              onClick={handleTotalButtonClick}
-            >
-              TOTAL
-            </button>
+            </div>
           </div>
         </section>
 
@@ -231,24 +245,6 @@ const KpiReport: React.FC<{ files: UploadedFile[] }> = ({ files }) => {
           <div className='kpi-card'>
             <div className='kpi-card-header'>
               <div className='kpi-card-icon'>
-                <FaForward />
-              </div>
-              <h3 className='kpi-card-title'>Porcentaje de sesiones con "skip"</h3>
-            </div>
-            <p className='kpi-card-value'>{formatPercentage(percentageWithSkip)}</p>
-          </div>
-          <div className='kpi-card'>
-            <div className='kpi-card-header'>
-              <div className='kpi-card-icon'>
-                <FaCheckCircle />
-              </div>
-              <h3 className='kpi-card-title'>Porcentaje de sesiones SIN "skip" (Escuchadas completas)</h3>
-            </div>
-            <p className='kpi-card-value'>{formatPercentage(percentageWithoutSkip)}</p>
-          </div>
-          <div className='kpi-card'>
-            <div className='kpi-card-header'>
-              <div className='kpi-card-icon'>
                 <FaThumbsDown />
               </div>
               <h3 className='kpi-card-title'>
@@ -280,6 +276,11 @@ const KpiReport: React.FC<{ files: UploadedFile[] }> = ({ files }) => {
         {/* Sección 5: Distribución por plataformas */}
         <section className='platform-distribution-section'>
           <PlatformDistribution files={files} fromDate={dateFrom} toDate={dateTo} />
+        </section>
+
+        {/* Sección 6: Gráficos adicionales (Países, Offline/Online, Skip) */}
+        <section className='additional-charts-section'>
+          <AdditionalCharts files={files} fromDate={dateFrom} toDate={dateTo} />
         </section>
       </div>
     </div>
